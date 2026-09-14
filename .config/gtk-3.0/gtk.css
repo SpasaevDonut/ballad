@@ -1,0 +1,84 @@
+@define-color theme_bg_color #121217;
+@define-color theme_fg_color #A3A0AF;
+@define-color theme_base_color #202029;
+@define-color theme_text_color #A3A0AF;
+@define-color theme_selected_bg_color #c16fb8;
+@define-color theme_selected_fg_color #121217;
+
+/* Основной фон окон и боковой панели */
+window, grid, scrolledwindow, treeview {
+    background-color: @theme_bg_color;
+    color: @theme_fg_color;
+}
+
+/* Область с файлами */
+view, iconview {
+    background-color: @theme_base_color;
+    color: @theme_text_color;
+}
+
+/* Корректное выделение для GTK3 (текст и фон) */
+*:selected, *:selected:focus {
+    background-color: @theme_selected_bg_color;
+    color: @theme_selected_fg_color;
+}
+
+/* Принудительный цвет текста и иконок при выделении */
+.sidebar row:selected, 
+treeview:selected, 
+label:selected, 
+image:selected {
+    color: @theme_selected_fg_color;
+}
+
+/* Главное меню (File, Edit, View...) */
+menubar, menubar item {
+    background-color: #121217;
+    color: #A3A0AF;
+}
+
+/* Панель инструментов (где кнопки назад/вперед и строка пути) */
+toolbar, .toolbar {
+    background-color: #121217;
+    color: #A3A0AF;
+    border: none;
+    box-shadow: none;
+}
+
+/* Строка ввода пути (~/) */
+.toolbar entry, entry {
+    background-color: #202029; /* popupBgColor для поля ввода */
+    color: #A3A0AF;
+    border: 1px solid #2F2F38; /* sepColor для границ */
+    border-radius: 4px;
+}
+
+/* Кнопки на панели инструментов */
+.toolbar button {
+    background-image: none;
+    background-color: transparent;
+    color: #A3A0AF;
+    border: none;
+}
+
+.toolbar button:hover {
+    background-color: #202029;
+}
+
+/* Тонкая линия-разделитель под панелью инструментов */
+headerbar, toolbar {
+    border-bottom: 1px solid #2F2F38;
+}
+
+/* Заголовки колонок таблицы (Name, Size, Type...) */
+treeview header button,
+treeview header button:hover {
+    background-image: none;
+    background-color: #121217; /* или #202029, если хотите слить с фоном файлов */
+    color: #A3A0AF;
+    border-color: #2F2F38; /* цвет разделителя между колонками */
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    box-shadow: none;
+    text-shadow: none;
+}

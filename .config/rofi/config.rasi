@@ -1,0 +1,98 @@
+configuration {
+	matching: "prefix";
+	drun-match-fields: "name";
+	tokenize: false;
+	font: "mono 11";
+	show-icons: true; 
+	window-format: "{w}    {c}   {t}";
+  	timeout {
+	      	action: "kb-cancel";
+      		delay:  0;
+	}
+	filebrowser {
+		directories-first: true;
+		sorting-method:    "name";
+	}
+}
+
+* {
+    bg:           #121217; 
+    bg-popup:     #202029; 
+    fg:           #A3A0AF; 
+    accent:       #C16FB8; 
+    inactive:     #5e5e65; 
+    sep:          #2F2F38; /* темная часть сепаратора */
+    sep-light:    #505050; /* светлая часть сепаратора (добавили) */
+    
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+window {
+    background-color: @bg; /* используем цвет попапа для окна */
+    border:           0px;
+    border-color:     @accent;   /* красная рамка вокруг окна */
+    padding:          5px;
+}
+
+mainbox {
+    spacing:          0px; /* <--- убираем разрыв между полем ввода и списком */
+    background-color: transparent;
+}
+
+inputbar {
+    padding:      5px;
+    spacing:      0px;
+    text-color:   @accent;
+    
+    /* темная тень снизу (2px) */
+    border:       0px 0px 2px 0px; 
+    border-color: @sep;
+    
+    children:   [ "prompt","textbox-prompt-colon","entry","overlay","num-filtered-rows","textbox-num-sep","num-rows","case-indicator" ];
+}
+
+prompt {
+    spacing:    0;
+    text-color: @accent;
+}
+
+entry {
+    text-color: @fg;
+}
+
+listview {
+    background-color: @bg;       
+    
+    /* светлый блик сверху (1px) */
+    border:           1px solid 0px 0px; 
+    border-color:     @sep-light;             
+    
+    spacing:          2px;
+    scrollbar:        false;
+    padding: 5 2 2 2px; 
+    /* убедимся, что между блоками нет пустых отступов, чтобы линии "склеились" */
+    margin:           0px; 
+}
+
+/* обычные элементы */
+element normal.normal, element alternate.normal {
+    background-color: @bg;
+    text-color:       @fg;
+}
+
+/* элементы при наведении/выделении (чтобы не было дефолтных цветов) */
+element selected.normal {
+    background-color: @accent;   /* красный фон при выделении */
+    text-color:       #ffffff;   /* белый текст для контраста */
+}
+
+element selected.active {
+    background-color: @accent;
+}
+
+message {
+    padding:      1px;
+    border-color: @inactive;
+    border:       2px dash 0px 0px;
+}

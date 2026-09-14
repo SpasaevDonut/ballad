@@ -1,0 +1,24 @@
+# C/C++ builds & compiled binaries
+*.o
+*.so
+debug-app
+quickshell-c
+
+# Backups and temporary files
+*_bk/
+*.bak
+*~
+*.swp
+*.tmp
+
+# User-specific bookmarks & cache
+.config/gtk-3.0/bookmarks
+
+# Shell history & secrets
+.zsh_history
+.bash_history
+*.env
+*.pem
+*.key
+id_rsa
+id_ed25519
