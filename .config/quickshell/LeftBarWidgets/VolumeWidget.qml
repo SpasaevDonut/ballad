@@ -6,9 +6,10 @@ import Quickshell.Services.Pipewire
 ColumnLayout {
     id: root
 
-    property color accentColor: "#C16FB8"
-    property color inactiveColor: "#5e5e65"
-    property color textColor: "#A3A0AF"
+    property color accentColor: "#b5893f"
+    property color inactiveColor: "#d5c4a1"
+    property color textColor: "#3a2a20"
+    property string fontWidget: "EB Garamond"
     property int barWidth: 46
     property var mixerPopup: null
 
@@ -95,9 +96,9 @@ ColumnLayout {
     Text {
         text: Math.round(root.volume * 100) + "%"
         color: root.isMuted ? root.inactiveColor : root.textColor
-        font.pixelSize: 13
+        font.pixelSize: 12
         font.bold: true
-        font.family: "AurulentSansMNerdFontPropo"
+        font.family: root.fontWidget
         horizontalAlignment: Text.AlignHCenter
         Layout.preferredWidth: root.barWidth
         Layout.alignment: Qt.AlignHCenter

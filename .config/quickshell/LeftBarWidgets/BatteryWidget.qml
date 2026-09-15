@@ -5,9 +5,12 @@ import Quickshell
 Item {
     id: root
 
-    property color accentColor: "#C16FB8"
-    property color inactiveColor: "#5e5e65"
-    property color textColor: "#A3A0AF"
+    property color accentColor: "#b5893f"
+    property color inactiveColor: "#d5c4a1"
+    property color textColor: "#3a2a20"
+    property color lowColor: "#7a362d"
+    property color chargingColor: "#d5a86d"
+    property string fontWidget: "EB Garamond"
     property real batteryPercent: 0
     property string batteryStatus: "Unknown"
     property int barWidth: 46
@@ -61,8 +64,8 @@ Item {
                         color: {
                             let activeBlocks = Math.round((root.capacity / 100.0) * 8)
                             if (index >= 8 - activeBlocks) {
-                                if (root.status === "Charging") return root.accentColor
-                                if (root.capacity <= 20) return root.accentColor
+                                if (root.status === "Charging") return root.chargingColor
+                                if (root.capacity <= 20) return root.lowColor
                                 return root.accentColor
                             }
                             return root.inactiveColor
@@ -75,10 +78,10 @@ Item {
         // Battery percentage text
         Text {
             text: Math.round(root.capacity) + "%"
-            color: root.status === "Charging" ? root.textColor : (root.capacity <= 20 ? root.accentColor : root.textColor)
-            font.pixelSize: 13
+            color: root.status === "Charging" ? root.chargingColor : (root.capacity <= 20 ? root.lowColor : root.textColor)
+            font.pixelSize: 12
             font.bold: true
-            font.family: "AurulentSansMNerdFontPropo"
+            font.family: root.fontWidget
             horizontalAlignment: Text.AlignHCenter
             Layout.preferredWidth: root.barWidth
             Layout.alignment: Qt.AlignHCenter

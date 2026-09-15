@@ -72,7 +72,78 @@ PopupWindow {
 
         width: 280
         height: 260
-        color: popupCfg?.bgColor ?? "#121217"
+        color: popupCfg?.popupBgColor ?? popupCfg?.bg0 ?? "#f1e5ce"
+        border.width: 1
+        border.color: popupCfg?.bg2 ?? "#d5c4a1"
+
+        // Victorian Corner Filigree
+        Item {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 270
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 180
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 90
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
 
         MouseArea {
             anchors.fill: parent
@@ -80,7 +151,7 @@ PopupWindow {
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 15
+            anchors.margins: 16
             spacing: 8
 
             // --- HEADER ---
@@ -91,37 +162,28 @@ PopupWindow {
 
                 Text {
                     text: "POWER PROFILE"
-                    color: popupCfg?.existingColor ?? "#939399"
-                    font.pixelSize: 14
+                    color: popupCfg?.fg ?? "#3a2a20"
+                    font.pixelSize: 13
                     font.bold: true
-                    font.family: "AurulentSansMNerdFontPropo"
+                    font.family: popupCfg?.fontTitle ?? "Cinzel"
                 }
 
                 Item { Layout.fillWidth: true } // Spacer
-
-                Text {
-                    text: "✖"
-                    color: popupCfg?.inactiveColor ?? "#5e5e65"
-                    font.pixelSize: 14
-                    font.bold: true
-
-                    MouseArea {
-                        anchors.fill: parent
-                        anchors.margins: -10
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            lastCloseTime = Date.now()
-                            root.visible = false
-                        }
-                    }
-                }
             }
 
-            // Accent separator line
-            Rectangle {
+            // Filigree divider
+            RowLayout {
                 Layout.fillWidth: true
-                height: 2
-                color: popupCfg?.accentColor ?? "#C16FB8"
+                spacing: 6
+
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
+                Text {
+                    text: "t"
+                    font.family: popupCfg?.fontBodoni ?? "Bodoni Ornaments ITC"
+                    font.pixelSize: 12
+                    color: popupCfg?.gold ?? "#b5893f"
+                }
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
             }
 
             // --- BATTERY STATUS CARD ---
@@ -135,34 +197,35 @@ PopupWindow {
 
                     Text {
                         text: (popupSysData?.batteryStatus ?? "") === "Charging" ? "⚡" : "󰁹"
-                        color: popupCfg?.accentColor ?? "#C16FB8"
+                        color: popupCfg?.gold ?? "#b5893f"
                         font.pixelSize: 16
                         font.family: "AurulentSansMNerdFontPropo"
                     }
 
                     Text {
                         text: "BATTERY"
-                        color: popupCfg?.textColor ?? "#A3A0AF"
+                        color: popupCfg?.fg ?? "#3a2a20"
                         font.pixelSize: 11
                         font.bold: true
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                     }
 
                     Item { Layout.fillWidth: true }
 
                     Text {
                         text: Math.round(popupSysData?.batteryPercent ?? 0) + "%"
-                        color: popupCfg?.accentColor ?? "#C16FB8"
+                        color: popupCfg?.gold ?? "#b5893f"
                         font.pixelSize: 13
                         font.bold: true
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontWidget ?? "EB Garamond"
                     }
 
                     Text {
                         text: "• " + (popupSysData?.batteryStatus ?? "UNKNOWN").toUpperCase()
-                        color: popupCfg?.inactiveColor ?? "#5e5e65"
+                        color: popupCfg?.fg ?? "#3a2a20"
+                        opacity: 0.7
                         font.pixelSize: 10
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontWidget ?? "EB Garamond"
                     }
                 }
 
@@ -179,7 +242,7 @@ PopupWindow {
                             color: {
                                 let pct = popupSysData?.batteryPercent ?? 0
                                 let active = Math.round((pct / 100.0) * 18)
-                                return index < active ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                                return index < active ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.bg2 ?? "#d5c4a1")
                             }
                         }
                     }
@@ -190,7 +253,7 @@ PopupWindow {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: popupCfg?.sepColor ?? "#2F2F38"
+                color: popupCfg?.sepColor ?? "#d5c4a1"
             }
 
             // --- SLIDER SECTION (LOW TO HIGH) ---
@@ -202,18 +265,20 @@ PopupWindow {
                     Layout.fillWidth: true
                     Text {
                         text: "LOW (POWERSAVE)"
-                        color: root.currentMode === 0 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                        color: root.currentMode === 0 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20")
+                        opacity: root.currentMode === 0 ? 1.0 : 0.65
                         font.pixelSize: 9
                         font.bold: root.currentMode === 0
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                     }
                     Item { Layout.fillWidth: true }
                     Text {
                         text: "HIGH (PERF)"
-                        color: root.currentMode === 2 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                        color: root.currentMode === 2 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20")
+                        opacity: root.currentMode === 2 ? 1.0 : 0.65
                         font.pixelSize: 9
                         font.bold: root.currentMode === 2
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                     }
                 }
 
@@ -238,8 +303,8 @@ PopupWindow {
                         implicitHeight: 6
                         width: modeSlider.availableWidth
                         height: implicitHeight
-                        color: "#16161f"
-                        border.color: popupCfg?.sepLightColor ?? "#505050"
+                        color: popupCfg?.bg2 ?? "#d5c4a1"
+                        border.color: popupCfg?.gold ?? "#b5893f"
                         border.width: 1
 
                         // Step Ticks
@@ -250,19 +315,19 @@ PopupWindow {
                             Rectangle {
                                 width: 2
                                 height: 6
-                                color: modeSlider.value >= 0 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                                color: modeSlider.value >= 0 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.sepColor ?? "#d5c4a1")
                             }
                             Item { Layout.fillWidth: true }
                             Rectangle {
                                 width: 2
                                 height: 6
-                                color: modeSlider.value >= 1 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                                color: modeSlider.value >= 1 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.sepColor ?? "#d5c4a1")
                             }
                             Item { Layout.fillWidth: true }
                             Rectangle {
                                 width: 2
                                 height: 6
-                                color: modeSlider.value >= 2 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                                color: modeSlider.value >= 2 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.sepColor ?? "#d5c4a1")
                             }
                         }
                     }
@@ -272,8 +337,8 @@ PopupWindow {
                         y: modeSlider.topPadding + modeSlider.availableHeight / 2 - height / 2
                         implicitWidth: 16
                         implicitHeight: 18
-                        color: popupCfg?.accentColor ?? "#C16FB8"
-                        border.color: "#ffffff"
+                        color: popupCfg?.gold ?? "#b5893f"
+                        border.color: popupCfg?.fg ?? "#3a2a20"
                         border.width: 1
                     }
                 }
@@ -288,17 +353,17 @@ PopupWindow {
                 Rectangle {
                     Layout.fillWidth: true
                     height: 26
-                    color: root.currentMode === 0 ? "#281e30" : (b0Mouse.containsMouse ? "#1c1c24" : "transparent")
+                    color: root.currentMode === 0 ? (popupCfg?.fg ?? "#3a2a20") : (b0Mouse.containsMouse ? "#dfcbb0" : "transparent")
                     border.width: 1
-                    border.color: root.currentMode === 0 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.sepLightColor ?? "#505050")
+                    border.color: root.currentMode === 0 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.bg2 ?? "#d5c4a1")
 
                     Text {
                         anchors.centerIn: parent
                         text: "POWERSAVE"
-                        color: root.currentMode === 0 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.textColor ?? "#A3A0AF")
+                        color: root.currentMode === 0 ? (popupCfg?.goldBright ?? "#d5a86d") : (popupCfg?.fg ?? "#3a2a20")
                         font.pixelSize: 9
                         font.bold: true
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                     }
 
                     MouseArea {
@@ -314,17 +379,17 @@ PopupWindow {
                 Rectangle {
                     Layout.fillWidth: true
                     height: 26
-                    color: root.currentMode === 1 ? "#281e30" : (b1Mouse.containsMouse ? "#1c1c24" : "transparent")
+                    color: root.currentMode === 1 ? (popupCfg?.fg ?? "#3a2a20") : (b1Mouse.containsMouse ? "#dfcbb0" : "transparent")
                     border.width: 1
-                    border.color: root.currentMode === 1 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.sepLightColor ?? "#505050")
+                    border.color: root.currentMode === 1 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.bg2 ?? "#d5c4a1")
 
                     Text {
                         anchors.centerIn: parent
                         text: "BALANCED"
-                        color: root.currentMode === 1 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.textColor ?? "#A3A0AF")
+                        color: root.currentMode === 1 ? (popupCfg?.goldBright ?? "#d5a86d") : (popupCfg?.fg ?? "#3a2a20")
                         font.pixelSize: 9
                         font.bold: true
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                     }
 
                     MouseArea {
@@ -340,17 +405,17 @@ PopupWindow {
                 Rectangle {
                     Layout.fillWidth: true
                     height: 26
-                    color: root.currentMode === 2 ? "#281e30" : (b2Mouse.containsMouse ? "#1c1c24" : "transparent")
+                    color: root.currentMode === 2 ? (popupCfg?.fg ?? "#3a2a20") : (b2Mouse.containsMouse ? "#dfcbb0" : "transparent")
                     border.width: 1
-                    border.color: root.currentMode === 2 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.sepLightColor ?? "#505050")
+                    border.color: root.currentMode === 2 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.bg2 ?? "#d5c4a1")
 
                     Text {
                         anchors.centerIn: parent
                         text: "PERFORMANCE"
-                        color: root.currentMode === 2 ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.textColor ?? "#A3A0AF")
+                        color: root.currentMode === 2 ? (popupCfg?.goldBright ?? "#d5a86d") : (popupCfg?.fg ?? "#3a2a20")
                         font.pixelSize: 9
                         font.bold: true
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                     }
 
                     MouseArea {
@@ -372,9 +437,10 @@ PopupWindow {
                     if (root.currentMode === 2) return "MODE: PERFORMANCE (TLP AC)"
                     return "MODE: BALANCED (TLP AUTO)"
                 }
-                color: root.statusIsError ? "#ff6b81" : (popupCfg?.inactiveColor ?? "#5e5e65")
+                color: root.statusIsError ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.fg ?? "#3a2a20")
+                opacity: 0.65
                 font.pixelSize: 9
-                font.family: "monospace"
+                font.family: popupCfg?.fontTitle ?? "Cinzel"
             }
         }
     }
@@ -383,11 +449,11 @@ PopupWindow {
     DropShadow {
         source: popupRect
         anchors.fill: popupRect
-        horizontalOffset: 15
-        verticalOffset: 15
-        radius: 15
+        horizontalOffset: 12
+        verticalOffset: 12
+        radius: 14
         samples: 16
-        color: "#A6000000"
+        color: "#353a2a20"
         transparentBorder: true
     }
 

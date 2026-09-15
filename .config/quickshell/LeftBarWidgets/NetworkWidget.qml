@@ -5,9 +5,10 @@ import Quickshell
 Item {
     id: root
 
-    property color accentColor: "#C16FB8"
-    property color inactiveColor: "#5e5e65"
-    property color textColor: "#A3A0AF"
+    property color accentColor: "#b5893f"
+    property color inactiveColor: "#d5c4a1"
+    property color textColor: "#3a2a20"
+    property string fontWidget: "EB Garamond"
     property int barWidth: 46
     property string netIcon: "󰤭"
     property bool isConnected: false
@@ -23,7 +24,7 @@ Item {
     Layout.preferredWidth: barWidth
     Layout.preferredHeight: 100
     Layout.alignment: Qt.AlignHCenter
-    Layout.topMargin: 6
+    Layout.topMargin: 2
     Layout.bottomMargin: 6
 
     ColumnLayout {
@@ -89,8 +90,8 @@ Item {
             Text {
                 text: root.downloadStr
                 color: root.accentColor
-                font.pixelSize: 12
-                font.family: "AurulentSansMNerdFontPropo"
+                font.pixelSize: 11
+                font.family: root.fontWidget
                 horizontalAlignment: Text.AlignHCenter
                 Layout.preferredWidth: root.barWidth
                 Layout.alignment: Qt.AlignHCenter
@@ -99,8 +100,8 @@ Item {
             Text {
                 text: root.uploadStr
                 color: root.textColor
-                font.pixelSize: 12
-                font.family: "AurulentSansMNerdFontPropo"
+                font.pixelSize: 11
+                font.family: root.fontWidget
                 horizontalAlignment: Text.AlignHCenter
                 Layout.preferredWidth: root.barWidth
                 Layout.alignment: Qt.AlignHCenter

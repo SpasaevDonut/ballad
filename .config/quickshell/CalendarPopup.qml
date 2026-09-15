@@ -51,9 +51,80 @@ PopupWindow {
         anchors.bottomMargin: 10
         anchors.leftMargin: 10    
 
-        width: 270
-        height: 400
-        color: popupCfg.bgColor
+        width: 280
+        height: 410
+        color: popupCfg?.popupBgColor ?? popupCfg?.bg0 ?? "#f1e5ce"
+        border.width: 1
+        border.color: popupCfg?.bg2 ?? "#d5c4a1"
+
+        // Victorian Corner Filigree
+        Item {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 270
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 180
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 90
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
 
         MouseArea { 
             anchors.fill: parent 
@@ -61,25 +132,25 @@ PopupWindow {
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 15
+            anchors.margins: 16
             spacing: 6
 
             Text {
                 id: popupTime
                 text: Qt.formatDateTime(clock.date, "hh:mm:ss")
-                color: popupCfg.accentColor
-                font.pixelSize: 36
+                color: popupCfg?.fg ?? "#3a2a20"
+                font.pixelSize: 32
                 font.bold: true
-                font.family: "monospace"
+                font.family: popupCfg?.fontTitle ?? "Cinzel"
                 Layout.alignment: Qt.AlignHCenter
             }
             
             Text {
                 id: popupDate
                 text: Qt.formatDateTime(clock.date, "yyyy-MM-dd")
-                color: popupCfg.textColor
-                font.pixelSize: 13
-                font.family: "monospace"
+                color: popupCfg?.gold ?? "#b5893f"
+                font.pixelSize: 14
+                font.family: popupCfg?.fontWidget ?? "EB Garamond"
                 Layout.alignment: Qt.AlignHCenter
             }
 
@@ -89,17 +160,17 @@ PopupWindow {
                 
                 Text { 
                     text: "SYS_TIME"
-                    font.pixelSize: 12
-                    color: popupCfg.inactiveColor
-                    font.family: "monospace" 
+                    font.pixelSize: 11
+                    color: popupCfg?.redDim ?? "#4c2d26"
+                    font.family: popupCfg?.fontTitle ?? "Cinzel" 
                 }
                 
                 Text {
                     id: popupRegion
-                    color: popupCfg.accentColor
+                    color: popupCfg?.fg ?? "#3a2a20"
                     font.pixelSize: 12
                     font.bold: true
-                    font.family: "monospace"
+                    font.family: popupCfg?.fontWidget ?? "EB Garamond"
                     
                     Component.onCompleted: { 
                         try { 
@@ -111,27 +182,37 @@ PopupWindow {
                 }
             }
 
-            Rectangle { 
+            // Filigree divider
+            RowLayout {
                 Layout.fillWidth: true
-                height: 2
-                color: popupCfg.accentColor
-                Layout.topMargin: 10
-                Layout.bottomMargin: 10 
+                Layout.topMargin: 4
+                Layout.bottomMargin: 4
+                spacing: 6
+
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
+                Text {
+                    text: "t"
+                    font.family: popupCfg?.fontBodoni ?? "Bodoni Ornaments ITC"
+                    font.pixelSize: 14
+                    color: popupCfg?.gold ?? "#b5893f"
+                }
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
             }
 
             GridLayout {
                 columns: 7
                 Layout.alignment: Qt.AlignHCenter
-                rowSpacing: 8
-                columnSpacing: 10
+                rowSpacing: 6
+                columnSpacing: 8
                 
                 Repeater { 
                     model: ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
                     Text { 
                         text: modelData
-                        color: (index > 4) ? popupCfg.accentColor : popupCfg.inactiveColor
-                        font.pixelSize: 13
+                        color: (index > 4) ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.fg ?? "#3a2a20")
+                        font.pixelSize: 12
                         font.bold: true
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                         horizontalAlignment: Text.AlignHCenter
                         Layout.fillWidth: true 
                     } 
@@ -140,26 +221,28 @@ PopupWindow {
                 Repeater {
                     model: root.leadingBlanks
                     Item { 
-                        Layout.preferredWidth: 24
-                        Layout.preferredHeight: 24 
+                        Layout.preferredWidth: 26
+                        Layout.preferredHeight: 26 
                     } 
                 }
                 
                 Repeater {
                     model: root.daysInMonth
                     Rectangle {
-                        Layout.preferredWidth: 24
-                        Layout.preferredHeight: 24
-                        color: (index + 1 === root.today) ? popupCfg.accentColor : "transparent"
-                        border.color: (index + 1 === root.today) ? "transparent" : popupCfg.inactiveColor
+                        Layout.preferredWidth: 26
+                        Layout.preferredHeight: 26
+                        radius: 2
+                        color: (index + 1 === root.today) ? (popupCfg?.goldBright ?? "#d5a86d") : "transparent"
+                        border.color: (index + 1 === root.today) ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.bg2 ?? "#d5c4a1")
                         border.width: 1
 
                         Text {
                             anchors.centerIn: parent
                             text: index + 1
-                            color: (index + 1 === root.today) ? popupCfg.bgColor : popupCfg.textColor
+                            color: (index + 1 === root.today) ? (popupCfg?.fg ?? "#3a2a20") : (popupCfg?.fg ?? "#3a2a20")
                             font.pixelSize: 13
-                            font.family: "monospace"
+                            font.bold: (index + 1 === root.today)
+                            font.family: popupCfg?.fontWidget ?? "EB Garamond"
                         }
                     }
                 }
@@ -175,11 +258,11 @@ PopupWindow {
     DropShadow {
         source: calRect
         anchors.fill: calRect
-        horizontalOffset: 15
-        verticalOffset: 15
-        radius: 15
+        horizontalOffset: 12
+        verticalOffset: 12
+        radius: 14
         samples: 16
-        color: "#A6000000"
+        color: "#353a2a20"
         transparentBorder: true
     }
 

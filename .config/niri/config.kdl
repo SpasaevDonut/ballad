@@ -9,10 +9,6 @@
 prefer-no-csd
 
 //gtk theme
-spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "font-name" "JetBrainsMonoNL Nerd Font 11"
-spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "document-font-name" "Sans 11"
-spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "monospace-font-name" "JetBrainsMonoNL Nerd Font 11"
-//clipboard
 spawn-at-startup "wl-clip-persist" "--clipboard" "regular"
 spawn-at-startup "sh" "-c" "wl-paste --type text --watch cliphist store"
 spawn-at-startup "sh" "-c" "wl-paste --type image --watch cliphist store"
@@ -23,7 +19,7 @@ spawn-sh-at-startup "sleep 0.5 && wireplumber"
 spawn-sh-at-startup "sleep 0.5 && pipewire-pulse"
 
 //wallpapaer
-spawn-sh-at-startup "swaybg -i ~/.config/koleda.png -m fill"
+spawn-sh-at-startup "swaybg -i ~/.config/wallpup_populated.jpg -m fill"
 spawn-at-startup "quickshell"
 
 environment {
@@ -73,14 +69,14 @@ layout {
     default-column-width { proportion 0.5; }
 
     focus-ring {
-        off
+        on
         width 3
-        active-color "#9b0715"
-        inactive-color "#505050"
+        active-color "#b5893f"
+        inactive-color "#d5c4a1"
     }
 
     border {
-        on
+        off
         width 3
         active-color "#C16FB8"
         inactive-color "#505050"

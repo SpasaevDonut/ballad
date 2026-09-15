@@ -1,18 +1,40 @@
 import QtQuick
 
 QtObject {
-    // --- COLORS AND THEME ---
-    property string bgColor: "#121217"
-    property string popupBgColor: "#202029"
-    property string sepColor: "#2F2F38"
-    property string sepLightColor: "#505050"
-    property string accentColor: "#C16FB8"
-    property string inactiveColor: "#5e5e65"
-    property string existingColor: "#939399"
-    property string textColor: "#A3A0AF"     
+    // --- AUTHENTIC DISDOC PALETTE (s.a.t.8 / Koleda Wallpaper) ---
+    property string bg0: "#f1e5ce"         // Основной пергамент
+    property string bg1: "#e8d2b4"         // Карточки и панели, чуть плотнее
+    property string bg2: "#d5c4a1"         // Разделители, неактивные бордеры
+    property string fg: "#3a2a20"          // Текст: тёплая темная умбра
+    property string red: "#7a362d"         // Винный акцент (юбка)
+    property string redDim: "#4c2d26"      // Тень / неактивное состояние красного
+    property string gold: "#b5893f"        // Золото (волосы/солнце/латунь)
+    property string goldBright: "#d5a86d"   // Хайлайт, активные элементы, фокус
+    property string green: "#7a7038"       // Приглушённый оливково-золотой (трава)
+    property string greenDim: "#49442c"    // Тень травы, неактивные риски
+    property string blueGray: "#9a9d9c"    // Приглушённый серо-голубой акцент (небо)
+
+    // --- COMPATIBLE THEME BINDINGS ---
+    property string bgColor: bg0
+    property string popupBgColor: bg0
+    property string sepColor: bg2
+    property string sepLightColor: bg0
+    property string accentColor: gold
+    property string inactiveColor: bg2
+    property string existingColor: redDim
+    property string textColor: fg
+
+    // --- TYPOGRAPHY AND ORNAMENTS ---
+    property string fontVictorian: "Victorian Free Ornaments"
+    property string fontBodoni: "Bodoni Ornaments ITC"
+    property string fontTitle: "Cinzel"
+    property string fontRoman: "Cinzel Decorative"
+    property string fontAccent: "Berkshire Swash"
+    property string fontWidget: "EB Garamond"
+    property string fontIcons: "AurulentSansMNerdFontPropo"     
     
     // --- DIMENSIONS ---
-    property int barWidth: 46 
+    property int barWidth: 50 
 
     // --- NETWORK ---
     property string netInterface: "wlan0"
@@ -32,11 +54,11 @@ QtObject {
     property real fan2MaxRpm: 5000
 
     // --- COMMANDS (Terminal & Mixer) ---
-    property string terminalCmd: "kitty" 
+    property string terminalCmd: "foot" 
     property string mixerCmd: "pwvucontrol" 
 
     // --- UPDATES ---
-    property int updatesCheckInterval: 600000 // 10 minutes
+    property int updatesCheckInterval: 2400000 // 40 minutes
     property string pacmanUpdateCmd: "pacman -Qu"
     property string upgradeCmd: "sudo pacman -Syu"
 }

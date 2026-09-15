@@ -39,25 +39,106 @@ PopupWindow {
 
         width: 280
         height: 420
-        color: popupCfg.bgColor
+        color: popupCfg?.popupBgColor ?? popupCfg?.bg0 ?? "#f1e5ce"
+        border.width: 1
+        border.color: popupCfg?.bg2 ?? "#d5c4a1"
+
+        // Victorian Corner Filigree
+        Item {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 270
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 180
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 90
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 15
+            anchors.margins: 16
             spacing: 8
 
             Text {
-		    text: "Mixer"
-                color: popupCfg.textColor
+                text: "AUDIO MIXER"
+                color: popupCfg?.fg ?? "#3a2a20"
                 font.pixelSize: 13
                 font.bold: true
+                font.family: popupCfg?.fontTitle ?? "Cinzel"
                 Layout.alignment: Qt.AlignHCenter
             }
 
-            Rectangle {
+            // Filigree divider
+            RowLayout {
                 Layout.fillWidth: true
-                height: 2
-                color: popupCfg.accentColor
+                spacing: 6
+
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
+                Text {
+                    text: "t"
+                    font.family: popupCfg?.fontBodoni ?? "Bodoni Ornaments ITC"
+                    font.pixelSize: 12
+                    color: popupCfg?.gold ?? "#b5893f"
+                }
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
             }
 
             ScrollView {
@@ -108,8 +189,9 @@ PopupWindow {
                                     Text {
                                         text: modelData.ready ? (modelData.properties?.["application.name"] || modelData.description || modelData.name || "Stream") : "..."
                                         color: popupCfg.textColor
-                                        font.pixelSize: 12
+                                        font.pixelSize: 13
                                         font.bold: true
+                                        font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                         elide: Text.ElideRight
                                         Layout.fillWidth: true
                                     }
@@ -138,6 +220,35 @@ PopupWindow {
 
                                         onMoved: {
                                             if (modelData.ready && modelData.audio) modelData.audio.volume = value
+                                        }
+
+                                        background: Rectangle {
+                                            x: volSlider.leftPadding
+                                            y: volSlider.topPadding + volSlider.availableHeight / 2 - height / 2
+                                            implicitWidth: 160
+                                            implicitHeight: 4
+                                            width: volSlider.availableWidth
+                                            height: implicitHeight
+                                            radius: 2
+                                            color: popupCfg?.bg2 ?? "#d5c4a1"
+
+                                            Rectangle {
+                                                width: volSlider.visualPosition * parent.width
+                                                height: parent.height
+                                                color: popupCfg?.gold ?? "#b5893f"
+                                                radius: 2
+                                            }
+                                        }
+
+                                        handle: Rectangle {
+                                            x: volSlider.leftPadding + volSlider.visualPosition * (volSlider.availableWidth - width)
+                                            y: volSlider.topPadding + volSlider.availableHeight / 2 - height / 2
+                                            implicitWidth: 14
+                                            implicitHeight: 14
+                                            radius: 2
+                                            color: volSlider.pressed ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.fg ?? "#3a2a20")
+                                            border.color: popupCfg?.gold ?? "#b5893f"
+                                            border.width: 1
                                         }
                                     }
 
@@ -188,11 +299,11 @@ PopupWindow {
     DropShadow {
         source: mixerRect
         anchors.fill: mixerRect
-        horizontalOffset: 15
-        verticalOffset: 15
-        radius: 15
+        horizontalOffset: 12
+        verticalOffset: 12
+        radius: 14
         samples: 16
-        color: "#A6000000"
+        color: "#353a2a20"
         transparentBorder: true
     }
 }

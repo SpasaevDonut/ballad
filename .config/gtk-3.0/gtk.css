@@ -1,84 +1,257 @@
-@define-color theme_bg_color #121217;
-@define-color theme_fg_color #A3A0AF;
-@define-color theme_base_color #202029;
-@define-color theme_text_color #A3A0AF;
-@define-color theme_selected_bg_color #c16fb8;
-@define-color theme_selected_fg_color #121217;
+/* ==========================================================================
+   Victorian-Celtic Theme (s.a.t.8 / Koleda Wallpaper Palette)
+   ========================================================================== */
+@define-color bg0 #f1e5ce;         /* Светлый тёплый пергамент */
+@define-color bg1 #e8d2b4;         /* Плотный пергамент (панели, тулбары) */
+@define-color bg2 #d5c4a1;         /* Разделители, рамки, неактивные бордеры */
+@define-color fg #3a2a20;          /* Текст: тёплая тёмная ореховая умбра */
+@define-color red #7a362d;         /* Винный бархат (акцент, выделение) */
+@define-color red_dim #4c2d26;     /* Тень / тёмный винный */
+@define-color gold #b5893f;        /* Старинное золото / латунь */
+@define-color gold_bright #d5a86d; /* Яркое золото, хайлайты */
+@define-color green #7a7038;       /* Оливково-золотой */
+@define-color blue_gray #9a9d9c;   /* Спокойная серо-голубая патина */
 
-/* Основной фон окон и боковой панели */
-window, grid, scrolledwindow, treeview {
+/* Стандартные переменные GTK 3 */
+@define-color theme_bg_color #f1e5ce;
+@define-color theme_fg_color #3a2a20;
+@define-color theme_base_color #fdf7ec;
+@define-color theme_text_color #3a2a20;
+@define-color theme_selected_bg_color #7a362d;
+@define-color theme_selected_fg_color #f1e5ce;
+
+/* Libadwaita / Adw-gtk3 */
+@define-color window_bg_color #f1e5ce;
+@define-color window_fg_color #3a2a20;
+@define-color view_bg_color #fdf7ec;
+@define-color view_fg_color #3a2a20;
+@define-color headerbar_bg_color #e8d2b4;
+@define-color headerbar_fg_color #3a2a20;
+@define-color headerbar_border_color #d5c4a1;
+@define-color headerbar_backdrop_color #f1e5ce;
+@define-color card_bg_color #e8d2b4;
+@define-color card_fg_color #3a2a20;
+@define-color card_border_color #d5c4a1;
+@define-color popover_bg_color #f1e5ce;
+@define-color popover_fg_color #3a2a20;
+@define-color popover_border_color #d5c4a1;
+@define-color shade_color rgba(58, 42, 32, 0.08);
+@define-color scrollbar_outline_color rgba(213, 196, 161, 0.5);
+@define-color borders #d5c4a1;
+@define-color border_color #d5c4a1;
+@define-color warning_color #b5893f;
+@define-color error_color #7a362d;
+@define-color success_color #7a7038;
+
+/* Основной фон окон и контейнеров */
+window, grid, scrolledwindow {
     background-color: @theme_bg_color;
     color: @theme_fg_color;
 }
 
-/* Область с файлами */
-view, iconview {
+/* Боковая панель */
+.sidebar, 
+.sidebar treeview, 
+.sidebar scrolledwindow,
+.sidebar treeview.view {
+    background-color: @bg1;
+    color: @theme_fg_color;
+    border-right: 1px solid @bg2;
+}
+
+/* Область файлов и списков */
+view, iconview, textview text, treeview {
     background-color: @theme_base_color;
     color: @theme_text_color;
 }
 
-/* Корректное выделение для GTK3 (текст и фон) */
-*:selected, *:selected:focus {
+/* Выделение во всех контекстах (активное и backdrop) */
+*:selected, 
+*:selected:focus, 
+*:selected:backdrop,
+treeview:selected,
+treeview:selected:focus,
+treeview:selected:backdrop,
+treeview.view:selected,
+treeview.view:selected:focus,
+treeview.view:selected:backdrop,
+.sidebar treeview:selected,
+.sidebar treeview:selected:focus,
+.sidebar treeview:selected:backdrop,
+.sidebar row:selected {
     background-color: @theme_selected_bg_color;
     color: @theme_selected_fg_color;
 }
 
 /* Принудительный цвет текста и иконок при выделении */
-.sidebar row:selected, 
-treeview:selected, 
+treeview:selected cell,
+treeview:selected text,
+treeview:selected label,
+.sidebar row:selected label,
 label:selected, 
 image:selected {
     color: @theme_selected_fg_color;
 }
 
-/* Главное меню (File, Edit, View...) */
+/* Главное меню */
 menubar, menubar item {
-    background-color: #121217;
-    color: #A3A0AF;
+    background-color: @bg1;
+    color: @theme_fg_color;
 }
 
-/* Панель инструментов (где кнопки назад/вперед и строка пути) */
-toolbar, .toolbar {
-    background-color: #121217;
-    color: #A3A0AF;
-    border: none;
+menubar item:hover {
+    background-color: @bg0;
+    color: @red;
+}
+
+menu, .menu, popover {
+    background-color: @bg0;
+    color: @theme_fg_color;
+    border: 1px solid @bg2;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+menuitem {
+    color: @theme_fg_color;
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+
+menuitem:hover {
+    background-color: @theme_selected_bg_color;
+    color: @theme_selected_fg_color;
+}
+
+/* Панель инструментов и заголовки */
+headerbar, toolbar, .toolbar {
+    background-color: @bg1;
+    color: @theme_fg_color;
+    border-bottom: 1px solid @bg2;
     box-shadow: none;
 }
 
-/* Строка ввода пути (~/) */
+headerbar:backdrop, toolbar:backdrop {
+    background-color: @bg0;
+    color: @theme_fg_color;
+}
+
+/* Строка ввода пути и текстовые поля */
 .toolbar entry, entry {
-    background-color: #202029; /* popupBgColor для поля ввода */
-    color: #A3A0AF;
-    border: 1px solid #2F2F38; /* sepColor для границ */
+    background-color: @theme_base_color;
+    color: @theme_text_color;
+    border: 1px solid @bg2;
     border-radius: 4px;
+    padding: 4px 8px;
+}
+
+.toolbar entry:focus, entry:focus {
+    border-color: @gold;
+    box-shadow: 0 0 0 1px @gold;
 }
 
 /* Кнопки на панели инструментов */
 .toolbar button {
     background-image: none;
     background-color: transparent;
-    color: #A3A0AF;
+    color: @theme_fg_color;
     border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
 }
 
 .toolbar button:hover {
-    background-color: #202029;
+    background-color: rgba(181, 137, 63, 0.18);
+    color: @red;
 }
 
-/* Тонкая линия-разделитель под панелью инструментов */
-headerbar, toolbar {
-    border-bottom: 1px solid #2F2F38;
+.toolbar button:checked, .toolbar button:active {
+    background-color: @red;
+    color: @theme_selected_fg_color;
 }
 
-/* Заголовки колонок таблицы (Name, Size, Type...) */
+/* Обычные кнопки */
+button {
+    background-image: none;
+    background-color: @bg1;
+    color: @theme_fg_color;
+    border: 1px solid @bg2;
+    border-radius: 4px;
+    padding: 4px 12px;
+}
+
+button:hover {
+    background-color: #eedbc2;
+    border-color: @gold;
+    color: @red;
+}
+
+button:checked, button:active {
+    background-color: @red;
+    color: @theme_selected_fg_color;
+    border-color: @red_dim;
+}
+
+/* Заголовки колонок таблицы */
 treeview header button,
 treeview header button:hover {
     background-image: none;
-    background-color: #121217; /* или #202029, если хотите слить с фоном файлов */
-    color: #A3A0AF;
-    border-color: #2F2F38; /* цвет разделителя между колонками */
+    background-color: @bg1;
+    color: @theme_fg_color;
+    border-color: @bg2;
     border-style: solid;
     border-width: 0 1px 1px 0;
     box-shadow: none;
     text-shadow: none;
+}
+
+treeview header button:hover {
+    color: @red;
+    background-color: #eedbc2;
+}
+
+/* Скроллбары */
+scrollbar {
+    background-color: transparent;
+}
+
+scrollbar slider {
+    background-color: @bg2;
+    border-radius: 4px;
+    min-width: 6px;
+    min-height: 6px;
+    border: 1px solid @bg1;
+}
+
+scrollbar slider:hover {
+    background-color: @gold;
+}
+
+scrollbar slider:active {
+    background-color: @red;
+}
+
+/* Разделители */
+separator {
+    background-color: @bg2;
+    color: @bg2;
+}
+
+/* Всплывающие подсказки */
+tooltip, tooltip.background {
+    background-color: @bg0;
+    color: @theme_fg_color;
+    border: 1px solid @gold;
+    border-radius: 4px;
+}
+
+/* Полоса прогресса */
+progressbar trough {
+    background-color: @bg2;
+    border-radius: 3px;
+}
+
+progressbar progress {
+    background-color: @gold;
+    border-radius: 3px;
 }

@@ -135,7 +135,78 @@ PanelWindow {
 
         width: 280
         height: 420
-        color: popupCfg?.bgColor ?? "#121217"
+        color: popupCfg?.popupBgColor ?? popupCfg?.bg0 ?? "#f1e5ce"
+        border.width: 1
+        border.color: popupCfg?.bg2 ?? "#d5c4a1"
+
+        // Victorian Corner Filigree
+        Item {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 270
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 180
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 90
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
 
         MouseArea {
             anchors.fill: parent
@@ -143,7 +214,7 @@ PanelWindow {
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 15
+            anchors.margins: 16
             spacing: 8
 
             // --- HEADER ---
@@ -154,37 +225,28 @@ PanelWindow {
 
                 Text {
                     text: "WI-FI NETWORKS"
-                    color: popupCfg?.existingColor ?? "#939399"
-                    font.pixelSize: 14
+                    color: popupCfg?.fg ?? "#3a2a20"
+                    font.pixelSize: 13
                     font.bold: true
-                    font.family: "AurulentSansMNerdFontPropo"
+                    font.family: popupCfg?.fontTitle ?? "Cinzel"
                 }
 
                 Item { Layout.fillWidth: true } // Spacer
-
-                Text {
-                    text: "✖"
-                    color: popupCfg?.inactiveColor ?? "#5e5e65"
-                    font.pixelSize: 14
-                    font.bold: true
-
-                    MouseArea {
-                        anchors.fill: parent
-                        anchors.margins: -10
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            lastCloseTime = Date.now()
-                            root.visible = false
-                        }
-                    }
-                }
             }
 
-            // Accent separator line matching Calendar and Power Popups
-            Rectangle {
+            // Filigree divider
+            RowLayout {
                 Layout.fillWidth: true
-                height: 2
-                color: popupCfg?.accentColor ?? "#C16FB8"
+                spacing: 6
+
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
+                Text {
+                    text: "t"
+                    font.family: popupCfg?.fontBodoni ?? "Bodoni Ornaments ITC"
+                    font.pixelSize: 14
+                    color: popupCfg?.gold ?? "#b5893f"
+                }
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
             }
 
             // --- SUBHEADER / QUICK CONTROLS ---
@@ -194,18 +256,19 @@ PanelWindow {
 
                 Text {
                     text: "STATUS:"
-                    color: popupCfg?.inactiveColor ?? "#5e5e65"
+                    color: popupCfg?.fg ?? "#3a2a20"
+                    opacity: 0.75
                     font.pixelSize: 11
                     font.bold: true
-                    font.family: "monospace"
+                    font.family: popupCfg?.fontTitle ?? "Cinzel"
                 }
 
                 Text {
                     text: root.wifiEnabled ? "ON" : "OFF"
-                    color: root.wifiEnabled ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                    color: root.wifiEnabled ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.red ?? "#7a362d")
                     font.pixelSize: 11
                     font.bold: true
-                    font.family: "monospace"
+                    font.family: popupCfg?.fontTitle ?? "Cinzel"
                 }
 
                 Item { Layout.fillWidth: true }
@@ -214,8 +277,8 @@ PanelWindow {
                 Text {
                     id: refreshIcon
                     text: "󰑐"
-                    color: root.isScanning ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
-                    font.pixelSize: 14
+                    color: root.isScanning ? (popupCfg?.goldBright ?? "#d5a86d") : (refreshMouse.containsMouse ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.fg ?? "#3a2a20"))
+                    font.pixelSize: 16
                     font.family: "AurulentSansMNerdFontPropo"
 
                     RotationAnimation on rotation {
@@ -227,8 +290,10 @@ PanelWindow {
                     }
 
                     MouseArea {
+                        id: refreshMouse
                         anchors.fill: parent
                         anchors.margins: -6
+                        hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: root.triggerScan(true)
                     }
@@ -240,15 +305,15 @@ PanelWindow {
                     height: 18
                     color: "transparent"
                     border.width: 1
-                    border.color: root.wifiEnabled ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                    border.color: root.wifiEnabled ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.bg2 ?? "#d5c4a1")
 
                     Text {
                         anchors.centerIn: parent
                         text: root.wifiEnabled ? "ON" : "OFF"
-                        color: root.wifiEnabled ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                        color: root.wifiEnabled ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20")
                         font.pixelSize: 9
                         font.bold: true
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                     }
 
                     MouseArea {
@@ -262,44 +327,35 @@ PanelWindow {
             // --- STATUS / NOTIFICATION MESSAGE ---
             Rectangle {
                 Layout.fillWidth: true
-                height: visible ? 22 : 0
+                height: visible ? 24 : 0
                 visible: root.isConnecting || root.statusMessage !== ""
-                color: root.statusIsError ? "#3d1c24" : (root.isConnecting ? "#251c2e" : "#1a2c20")
+                color: root.statusIsError ? "#f4dcd9" : (popupCfg?.bg0 ?? "#f1e5ce")
+                border.color: root.statusIsError ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.gold ?? "#b5893f")
+                border.width: 1
                 clip: true
 
                 RowLayout {
                     anchors.fill: parent
                     anchors.margins: 2
-                    anchors.leftMargin: 6
-                    anchors.rightMargin: 6
+                    anchors.leftMargin: 8
+                    anchors.rightMargin: 8
                     spacing: 6
 
                     Text {
                         text: root.statusIsError ? "⚠" : (root.isConnecting ? "󰤩" : "✓")
-                        color: root.statusIsError ? "#ff6b81" : (popupCfg?.accentColor ?? "#C16FB8")
-                        font.pixelSize: 11
+                        color: root.statusIsError ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.gold ?? "#b5893f")
+                        font.pixelSize: 12
+                        font.family: popupCfg?.fontIcons ?? "AurulentSansMNerdFontPropo"
                     }
 
                     Text {
                         text: root.statusMessage
-                        color: root.statusIsError ? "#ffb8c6" : (popupCfg?.textColor ?? "#A3A0AF")
-                        font.pixelSize: 10
-                        font.family: "monospace"
+                        color: root.statusIsError ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.fg ?? "#3a2a20")
+                        font.pixelSize: 11
+                        font.family: popupCfg?.fontWidget ?? "EB Garamond"
+                        font.italic: root.isConnecting
                         Layout.fillWidth: true
                         elide: Text.ElideRight
-                    }
-
-                    Text {
-                        text: "✖"
-                        color: popupCfg?.inactiveColor ?? "#5e5e65"
-                        font.pixelSize: 9
-                        visible: !root.isConnecting
-                        MouseArea {
-                            anchors.fill: parent
-                            anchors.margins: -4
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: root.statusMessage = ""
-                        }
                     }
                 }
             }
@@ -316,16 +372,17 @@ PanelWindow {
 
                     Text {
                         text: "󰤮"
-                        color: popupCfg?.inactiveColor ?? "#5e5e65"
+                        color: popupCfg?.gold ?? "#b5893f"
                         font.pixelSize: 42
+                        font.family: popupCfg?.fontIcons ?? "AurulentSansMNerdFontPropo"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
                     Text {
                         text: "Wi-Fi is disabled"
-                        color: popupCfg?.textColor ?? "#A3A0AF"
-                        font.pixelSize: 12
-                        font.family: "monospace"
+                        color: popupCfg?.fg ?? "#3a2a20"
+                        font.pixelSize: 13
+                        font.family: popupCfg?.fontWidget ?? "EB Garamond"
                         font.bold: true
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
@@ -333,20 +390,24 @@ PanelWindow {
                     Rectangle {
                         width: 120
                         height: 26
-                        color: popupCfg?.accentColor ?? "#C16FB8"
+                        color: enableBtnMouse.containsMouse ? (popupCfg?.goldBright ?? "#d5a86d") : (popupCfg?.gold ?? "#b5893f")
+                        border.color: popupCfg?.gold ?? "#b5893f"
+                        border.width: 1
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         Text {
                             text: "ENABLE WI-FI"
-                            color: "#ffffff"
+                            color: popupCfg?.bg0 ?? "#f1e5ce"
                             font.pixelSize: 10
                             font.bold: true
-                            font.family: "monospace"
+                            font.family: popupCfg?.fontTitle ?? "Cinzel"
                             anchors.centerIn: parent
                         }
 
                         MouseArea {
+                            id: enableBtnMouse
                             anchors.fill: parent
+                            hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: root.toggleWifiPower()
                         }
@@ -369,8 +430,9 @@ PanelWindow {
 
                     Text {
                         text: root.isScanning ? "󰑐" : "󰤭"
-                        color: popupCfg?.accentColor ?? "#C16FB8"
+                        color: popupCfg?.gold ?? "#b5893f"
                         font.pixelSize: 28
+                        font.family: popupCfg?.fontIcons ?? "AurulentSansMNerdFontPropo"
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         RotationAnimation on rotation {
@@ -384,9 +446,10 @@ PanelWindow {
 
                     Text {
                         text: root.isScanning ? "Scanning..." : "No networks found"
-                        color: popupCfg?.textColor ?? "#A3A0AF"
-                        font.pixelSize: 11
-                        font.family: "monospace"
+                        color: popupCfg?.fg ?? "#3a2a20"
+                        font.pixelSize: 12
+                        font.family: popupCfg?.fontWidget ?? "EB Garamond"
+                        font.italic: true
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }
@@ -406,8 +469,8 @@ PanelWindow {
                             id: netCard
                             width: ListView.view.width
                             height: contentColumn.implicitHeight + 8
-                            color: isSelected ? "#1c1b26" : (rowMouse.containsMouse ? "#1a1921" : "transparent")
-                            border.color: isSelected ? (popupCfg?.accentColor ?? "#C16FB8") : "transparent"
+                            color: isSelected ? "#dfcbb0" : (rowMouse.containsMouse ? "#eedbc2" : "transparent")
+                            border.color: isSelected ? (popupCfg?.gold ?? "#b5893f") : "transparent"
                             border.width: isSelected ? 1 : 0
 
                             property bool isSelected: root.expandedSsid === model.ssid
@@ -438,7 +501,7 @@ PanelWindow {
                                                 if (model.signal >= 25) return "󰤢"
                                                 return "󰤟"
                                             }
-                                            color: model.inUse ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.textColor ?? "#A3A0AF")
+                                            color: model.inUse ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20")
                                             font.pixelSize: 14
                                             font.family: "AurulentSansMNerdFontPropo"
                                         }
@@ -454,10 +517,10 @@ PanelWindow {
 
                                                 Text {
                                                     text: model.ssid
-                                                    color: model.inUse ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.textColor ?? "#A3A0AF")
-                                                    font.pixelSize: 11
+                                                    color: model.inUse ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20")
+                                                    font.pixelSize: 13
                                                     font.bold: model.inUse
-                                                    font.family: "monospace"
+                                                    font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                                     elide: Text.ElideRight
                                                     Layout.fillWidth: true
                                                 }
@@ -467,22 +530,24 @@ PanelWindow {
                                                 spacing: 4
                                                 Text {
                                                     text: model.isSaved ? "Saved" : (model.security && model.security !== "--" ? model.security : (model.secured ? "Secured" : "Open"))
-                                                    color: model.isSaved ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
-                                                    font.pixelSize: 9
-                                                    font.family: "monospace"
+                                                    color: model.isSaved ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20")
+                                                    opacity: model.isSaved ? 1.0 : 0.65
+                                                    font.pixelSize: 10
+                                                    font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                                 }
 
                                                 Text {
                                                     text: "•"
-                                                    color: popupCfg?.sepLightColor ?? "#505050"
+                                                    color: popupCfg?.sepColor ?? "#d5c4a1"
                                                     font.pixelSize: 8
                                                 }
 
                                                 Text {
                                                     text: model.signal + "%"
-                                                    color: popupCfg?.inactiveColor ?? "#5e5e65"
-                                                    font.pixelSize: 9
-                                                    font.family: "monospace"
+                                                    color: popupCfg?.fg ?? "#3a2a20"
+                                                    opacity: 0.65
+                                                    font.pixelSize: 10
+                                                    font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                                 }
                                             }
                                         }
@@ -490,19 +555,19 @@ PanelWindow {
                                         // Disconnect button on the right for connected network
                                         Rectangle {
                                             visible: model.inUse
-                                            width: 72
+                                            width: 76
                                             height: 18
-                                            color: disconMouse.containsMouse ? "#451a22" : "transparent"
-                                            border.color: disconMouse.containsMouse ? "#ff4757" : (popupCfg?.accentColor ?? "#C16FB8")
+                                            color: disconMouse.containsMouse ? (popupCfg?.red ?? "#7a362d") : "transparent"
+                                            border.color: disconMouse.containsMouse ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.gold ?? "#b5893f")
                                             border.width: 1
 
                                             Text {
                                                 anchors.centerIn: parent
                                                 text: disconMouse.containsMouse ? "DISCONNECT" : "CONNECTED"
-                                                color: disconMouse.containsMouse ? "#ff6b81" : (popupCfg?.accentColor ?? "#C16FB8")
-                                                font.pixelSize: 8
+                                                color: disconMouse.containsMouse ? "#ffffff" : (popupCfg?.gold ?? "#b5893f")
+                                                font.pixelSize: 9
                                                 font.bold: true
-                                                font.family: "monospace"
+                                                font.family: popupCfg?.fontTitle ?? "Cinzel"
                                             }
 
                                             MouseArea {
@@ -529,9 +594,10 @@ PanelWindow {
                                                     if (model.secured) return "󰌾"
                                                     return "▶"
                                                 }
-                                                color: netCard.isSelected ? (popupCfg?.accentColor ?? "#C16FB8") : (model.isSaved ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65"))
+                                                color: netCard.isSelected ? (popupCfg?.goldBright ?? "#d5a86d") : (model.isSaved ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20"))
+                                                opacity: (!netCard.isSelected && !model.isSaved) ? 0.45 : 1.0
                                                 font.pixelSize: model.secured && !model.isSaved && !netCard.isSelected ? 11 : 9
-                                                font.family: "AurulentSansMNerdFontPropo"
+                                                font.family: popupCfg?.fontIcons ?? "AurulentSansMNerdFontPropo"
                                             }
                                         }
                                     }
@@ -576,21 +642,21 @@ PanelWindow {
                                     Rectangle {
                                         Layout.fillWidth: true
                                         height: 1
-                                        color: popupCfg?.sepColor ?? "#2F2F38"
+                                        color: popupCfg?.bg2 ?? "#d5c4a1"
                                     }
 
                                     Text {
                                         text: model.isSaved ? "New password for " + model.ssid + ":" : "Password:"
-                                        color: popupCfg?.textColor ?? "#A3A0AF"
-                                        font.pixelSize: 9
-                                        font.family: "monospace"
+                                        color: popupCfg?.fg ?? "#3a2a20"
+                                        font.pixelSize: 11
+                                        font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                     }
 
                                     Rectangle {
                                         Layout.fillWidth: true
-                                        height: 24
-                                        color: "#0e0e13"
-                                        border.color: pwdInput.activeFocus ? (popupCfg?.accentColor ?? "#C16FB8") : (popupCfg?.inactiveColor ?? "#5e5e65")
+                                        height: 26
+                                        color: popupCfg?.bg0 ?? "#f1e5ce"
+                                        border.color: pwdInput.activeFocus ? (popupCfg?.goldBright ?? "#d5a86d") : (popupCfg?.gold ?? "#b5893f")
                                         border.width: 1
 
                                         MouseArea {
@@ -603,15 +669,15 @@ PanelWindow {
                                             anchors.left: parent.left
                                             anchors.right: showPwdBtn.left
                                             anchors.verticalCenter: parent.verticalCenter
-                                            anchors.leftMargin: 6
-                                            anchors.rightMargin: 6
-                                            color: popupCfg?.textColor ?? "#A3A0AF"
-                                            font.pixelSize: 11
-                                            font.family: "monospace"
+                                            anchors.leftMargin: 8
+                                            anchors.rightMargin: 8
+                                            color: popupCfg?.fg ?? "#3a2a20"
+                                            font.pixelSize: 12
+                                            font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                             echoMode: root.showPassword ? TextInput.Normal : TextInput.Password
                                             selectByMouse: true
-                                            selectionColor: popupCfg?.accentColor ?? "#C16FB8"
-                                            selectedTextColor: "#ffffff"
+                                            selectionColor: popupCfg?.goldBright ?? "#d5a86d"
+                                            selectedTextColor: popupCfg?.fg ?? "#3a2a20"
                                             clip: true
                                             enabled: !root.isConnecting
                                             focus: true
@@ -625,9 +691,11 @@ PanelWindow {
 
                                             Text {
                                                 text: "Enter password..."
-                                                color: popupCfg?.inactiveColor ?? "#5e5e65"
-                                                font.pixelSize: 10
-                                                font.family: "monospace"
+                                                color: popupCfg?.gold ?? "#b5893f"
+                                                opacity: 0.7
+                                                font.pixelSize: 11
+                                                font.italic: true
+                                                font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                                 anchors.verticalCenter: parent.verticalCenter
                                                 visible: !pwdInput.text && !pwdInput.activeFocus
                                             }
@@ -639,16 +707,18 @@ PanelWindow {
                                         Text {
                                             id: showPwdBtn
                                             anchors.right: parent.right
-                                            anchors.rightMargin: 6
+                                            anchors.rightMargin: 8
                                             anchors.verticalCenter: parent.verticalCenter
                                             text: root.showPassword ? "󰈈" : "󰈉"
-                                            color: popupCfg?.inactiveColor ?? "#5e5e65"
-                                            font.pixelSize: 12
-                                            font.family: "AurulentSansMNerdFontPropo"
+                                            color: showPwdMouse.containsMouse ? (popupCfg?.fg ?? "#3a2a20") : (popupCfg?.gold ?? "#b5893f")
+                                            font.pixelSize: 13
+                                            font.family: popupCfg?.fontIcons ?? "AurulentSansMNerdFontPropo"
 
                                             MouseArea {
+                                                id: showPwdMouse
                                                 anchors.fill: parent
                                                 anchors.margins: -4
+                                                hoverEnabled: true
                                                 cursorShape: Qt.PointingHandCursor
                                                 onClicked: root.showPassword = !root.showPassword
                                             }
@@ -663,16 +733,18 @@ PanelWindow {
                                         Rectangle {
                                             Layout.fillWidth: true
                                             height: 22
-                                            color: connectBtnMouse.containsMouse ? Qt.lighter(popupCfg?.accentColor ?? "#C16FB8", 1.1) : (popupCfg?.accentColor ?? "#C16FB8")
+                                            color: connectBtnMouse.containsMouse ? (popupCfg?.goldBright ?? "#d5a86d") : (popupCfg?.gold ?? "#b5893f")
+                                            border.color: popupCfg?.gold ?? "#b5893f"
+                                            border.width: 1
                                             opacity: root.isConnecting ? 0.6 : 1.0
 
                                             Text {
                                                 anchors.centerIn: parent
                                                 text: root.isConnecting && root.connectingSsid === model.ssid ? "CONNECTING..." : "CONNECT"
-                                                color: "#ffffff"
+                                                color: popupCfg?.bg0 ?? "#f1e5ce"
                                                 font.pixelSize: 9
                                                 font.bold: true
-                                                font.family: "monospace"
+                                                font.family: popupCfg?.fontTitle ?? "Cinzel"
                                             }
 
                                             MouseArea {
@@ -686,18 +758,19 @@ PanelWindow {
                                         }
 
                                         Rectangle {
-                                            width: 54
+                                            width: 58
                                             height: 22
-                                            color: cancelBtnMouse.containsMouse ? (popupCfg?.inactiveColor ?? "#5e5e65") : "transparent"
-                                            border.color: popupCfg?.inactiveColor ?? "#5e5e65"
+                                            color: cancelBtnMouse.containsMouse ? (popupCfg?.bg1 ?? "#e8d2b4") : "transparent"
+                                            border.color: popupCfg?.gold ?? "#b5893f"
                                             border.width: 1
 
                                             Text {
                                                 anchors.centerIn: parent
                                                 text: "CANCEL"
-                                                color: popupCfg?.textColor ?? "#A3A0AF"
+                                                color: popupCfg?.gold ?? "#b5893f"
                                                 font.pixelSize: 9
-                                                font.family: "monospace"
+                                                font.bold: true
+                                                font.family: popupCfg?.fontTitle ?? "Cinzel"
                                             }
 
                                             MouseArea {
@@ -726,11 +799,11 @@ PanelWindow {
     DropShadow {
         source: wifiRect
         anchors.fill: wifiRect
-        horizontalOffset: 15
-        verticalOffset: 15
-        radius: 15
+        horizontalOffset: 12
+        verticalOffset: 12
+        radius: 14
         samples: 16
-        color: "#A6000000"
+        color: "#353a2a20"
         transparentBorder: true
     }
 

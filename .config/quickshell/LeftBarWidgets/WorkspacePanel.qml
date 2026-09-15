@@ -6,14 +6,19 @@ import Quickshell.Io
 ColumnLayout {
     id: root
 
-    property color accentColor: "#C16FB8"
-    property color inactiveColor: "#5e5e65"
-    property color existingColor: "#939399"
-    property color textColor: "#A3A0AF"
-    property color sepColor: "#2F2F38"
-    property color sepLightColor: "#505050"
+    property color accentColor: "#b5893f"
+    property color inactiveColor: "#d5c4a1"
+    property color existingColor: "#7a362d"
+    property color textColor: "#3a2a20"
+    property color sepColor: "#d5c4a1"
+    property color sepLightColor: "#f1e5ce"
+    property string fontRoman: "Cinzel Decorative"
+    property string fontTitle: "Cinzel"
+    property string fontWidget: "EB Garamond"
     property int barWidth: 46
     property var winMenu: null
+
+    readonly property var romanNumerals: ["Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ", "Ⅹ"]
 
     spacing: 0
     Layout.alignment: Qt.AlignHCenter
@@ -101,39 +106,63 @@ ColumnLayout {
         running: false
     }
 
-    // --- WORKSPACES ---
+    // --- WORKSPACES (Pocket Watch Dial Roman Numerals) ---
     GridLayout {
         columns: 2
-        rowSpacing: 6
-        columnSpacing: 6
+        rowSpacing: 4
+        columnSpacing: 4
         Layout.alignment: Qt.AlignHCenter
-        Layout.topMargin: 6
-        Layout.bottomMargin: 6
+        Layout.topMargin: 4
+        Layout.bottomMargin: 4
 
         Repeater {
             model: root.workspaces
             Item {
-                width: 14
-                height: 36
+                width: 17
+                height: 22
 
                 Rectangle {
                     anchors.fill: parent
-                    color: "transparent"
-                    border.width: 2
-                    border.color: modelData.is_focused ? root.accentColor : root.inactiveColor
+                    radius: 3
+                    color: modelData.is_focused ? "#30d5a86d" : (modelData.exists ? "#15b5893f" : "transparent")
+                    border.width: 1
+                    border.color: modelData.is_focused ? root.accentColor : (modelData.exists ? "#80d5c4a1" : "transparent")
                     Behavior on border.color { ColorAnimation { duration: 150 } }
+                    Behavior on color { ColorAnimation { duration: 150 } }
                 }
 
-                Rectangle {
-                    anchors.fill: parent
-                    anchors.margins: 5
-                    color: modelData.exists ? root.existingColor : root.inactiveColor
+                Text {
+                    anchors.centerIn: parent
+                    text: root.romanNumerals[index] ?? (index + 1).toString()
+                    font.family: root.fontRoman
+                    font.pixelSize: 11
+                    font.bold: modelData.is_focused
+                    color: {
+                        if (modelData.is_focused) return "#b5893f"
+                        if (modelData.exists) return root.textColor
+                        return root.inactiveColor
+                    }
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                     Behavior on color { ColorAnimation { duration: 150 } }
+                }
+
+                // Window presence indicator dot
+                Rectangle {
+                    visible: modelData.exists && !modelData.is_focused
+                    width: 3
+                    height: 3
+                    radius: 1.5
+                    color: root.existingColor
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 2
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
 
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
                     onClicked: {
                         clickProc.command = ["niri", "msg", "action", "focus-workspace", modelData.name ? modelData.name : modelData.id.toString()]
                         clickProc.running = true
@@ -248,11 +277,11 @@ ColumnLayout {
                     id: appNameText
                     text: appName
                     color: itemColor
-                    font.pixelSize: 11
+                    font.pixelSize: 10
                     font.bold: true
-                    font.family: "monospace"
+                    font.family: root.fontTitle
                     horizontalAlignment: Text.AlignHCenter
-                    lineHeight: 0.9
+                    lineHeight: 0.95
                     anchors.verticalCenter: parent.verticalCenter
                     Behavior on color { ColorAnimation { duration: 150 } }
                 }
@@ -260,13 +289,14 @@ ColumnLayout {
                 Column {
                     id: dotsColumn
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 4
+                    spacing: 5
 
                     Repeater {
                         model: modelData.windows
                         delegate: Rectangle {
                             width: 4
                             height: 4
+                            rotation: 45
                             color: modelData.is_focused ? root.accentColor : root.existingColor
                             Behavior on color { ColorAnimation { duration: 150 } }
 

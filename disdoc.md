@@ -1,7 +1,7 @@
 # rice conversion design-doc
 [quickshell docs](https://quickshell.org/docs/v0.3.1)
 
-прочитай AGENTS.md
+прочитай AGENTS.md в .config/quickshell
 весь стек оставь прежним, измени только стиль под описанное ниже
 
 ## Palette:

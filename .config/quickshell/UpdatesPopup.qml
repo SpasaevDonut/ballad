@@ -32,12 +32,12 @@ PanelWindow {
     property string searchQuery: ""
 
     // Theme colors
-    readonly property color bgColor: popupCfg ? popupCfg.bgColor : "#121217"
-    readonly property color accentColor: popupCfg ? popupCfg.accentColor : "#C16FB8"
-    readonly property color textColor: popupCfg ? popupCfg.textColor : "#A3A0AF"
-    readonly property color inactiveColor: popupCfg ? popupCfg.inactiveColor : "#5e5e65"
-    readonly property color existingColor: popupCfg ? popupCfg.existingColor : "#939399"
-    readonly property color sepColor: popupCfg ? popupCfg.sepColor : "#2F2F38"
+    readonly property color bgColor: popupCfg ? (popupCfg.popupBgColor ?? popupCfg.bg0) : "#f1e5ce"
+    readonly property color accentColor: popupCfg ? (popupCfg.gold ?? popupCfg.accentColor) : "#b5893f"
+    readonly property color textColor: popupCfg ? (popupCfg.fg ?? popupCfg.textColor) : "#3a2a20"
+    readonly property color inactiveColor: popupCfg ? (popupCfg.bg2 ?? popupCfg.inactiveColor) : "#d5c4a1"
+    readonly property color existingColor: popupCfg ? (popupCfg.red ?? popupCfg.existingColor) : "#7a362d"
+    readonly property color sepColor: popupCfg ? (popupCfg.bg2 ?? popupCfg.sepColor) : "#d5c4a1"
     readonly property color sepLightColor: popupCfg ? popupCfg.sepLightColor : "#505050"
 
     readonly property int updatesCount: popupSysData ? popupSysData.pacmanUpdatesCount : 0
@@ -56,7 +56,7 @@ PanelWindow {
     readonly property int targetY: {
         if (!anchorItem || typeof leftBar === "undefined" || !leftBar) return 100
         var itemCenterY = leftBar.mapFromItem(anchorItem, 0, anchorItem.height / 2).y
-        var popupH = 480
+        var popupH = 430
         var y = itemCenterY - popupH / 2
         var screenH = root.height > 0 ? root.height : 1080
         if (y < 10) y = 10
@@ -84,9 +84,80 @@ PanelWindow {
         x: 10
         y: root.targetY
 
-        width: 320
-        height: 480
+        width: 300
+        height: 430
         color: root.bgColor
+        border.width: 1
+        border.color: root.sepColor
+
+        // Victorian Corner Filigree
+        Item {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 270
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 4
+            width: 16; height: 16
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 180
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
+        Item {
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 4
+            width: 16; height: 16
+            rotation: 90
+
+            Text {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: "z"
+                font.family: popupCfg?.fontVictorian ?? "Victorian Free Ornaments"
+                font.pixelSize: 16
+                color: popupCfg?.gold ?? "#b5893f"
+                opacity: 0.65
+            }
+        }
 
         MouseArea {
             anchors.fill: parent
@@ -94,38 +165,81 @@ PanelWindow {
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 14
+            anchors.margins: 16
             spacing: 8
 
             // --- HEADER ---
             RowLayout {
                 Layout.fillWidth: true
-                spacing: 6
 
-                Text {
-                    text: "󰮯"
-                    color: root.accentColor
-                    font.pixelSize: 18
-                    font.family: "AurulentSansMNerdFontPropo"
-                }
+                Item { Layout.fillWidth: true }
 
                 Text {
                     text: "PACMAN UPDATES"
-                    color: root.existingColor
+                    color: popupCfg?.fg ?? "#3a2a20"
                     font.pixelSize: 13
                     font.bold: true
-                    font.family: "AurulentSansMNerdFontPropo"
+                    font.family: popupCfg?.fontTitle ?? "Cinzel"
                 }
 
-                Item { Layout.fillWidth: true } // Spacer
+                Item { Layout.fillWidth: true }
+            }
 
-                // Refresh button
+            // Filigree divider
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 6
+
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
+                Text {
+                    text: "t"
+                    font.family: popupCfg?.fontBodoni ?? "Bodoni Ornaments ITC"
+                    font.pixelSize: 14
+                    color: popupCfg?.gold ?? "#b5893f"
+                }
+                Rectangle { Layout.fillWidth: true; height: 1; color: popupCfg?.bg2 ?? "#d5c4a1"; opacity: 0.7 }
+            }
+
+            // --- SUBHEADER / QUICK CONTROLS ---
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 6
+
+                Text {
+                    text: "STATUS:"
+                    color: popupCfg?.fg ?? "#3a2a20"
+                    opacity: 0.75
+                    font.pixelSize: 11
+                    font.bold: true
+                    font.family: popupCfg?.fontTitle ?? "Cinzel"
+                }
+
+                Text {
+                    text: root.updatesCount > 0 ? (root.updatesCount + " AVAILABLE") : "UP TO DATE"
+                    color: root.updatesCount > 0 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.green ?? "#7a7038")
+                    font.pixelSize: 11
+                    font.bold: true
+                    font.family: popupCfg?.fontTitle ?? "Cinzel"
+                }
+
+                Item { Layout.fillWidth: true }
+
+                Text {
+                    text: root.checkTime ? root.checkTime : ""
+                    color: popupCfg?.fg ?? "#3a2a20"
+                    opacity: 0.6
+                    font.pixelSize: 10
+                    font.family: popupCfg?.fontWidget ?? "EB Garamond"
+                }
+
+                // Refresh scan icon
                 Text {
                     id: refreshBtn
                     text: "󰑐"
-                    color: root.isChecking ? root.accentColor : (refreshMouse.containsMouse ? root.accentColor : root.inactiveColor)
+                    color: root.isChecking ? (popupCfg?.goldBright ?? "#d5a86d") : (refreshMouse.containsMouse ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.fg ?? "#3a2a20"))
                     font.pixelSize: 15
                     font.family: "AurulentSansMNerdFontPropo"
+                    Layout.alignment: Qt.AlignVCenter
 
                     RotationAnimation on rotation {
                         running: root.isChecking
@@ -148,77 +262,17 @@ PanelWindow {
                         }
                     }
                 }
-
-                // Close button
-                Text {
-                    text: "✖"
-                    color: closeMouse.containsMouse ? root.accentColor : root.inactiveColor
-                    font.pixelSize: 13
-                    font.bold: true
-
-                    MouseArea {
-                        id: closeMouse
-                        anchors.fill: parent
-                        anchors.margins: -6
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            lastCloseTime = Date.now()
-                            root.visible = false
-                        }
-                    }
-                }
-            }
-
-            // Accent separator line
-            Rectangle {
-                Layout.fillWidth: true
-                height: 2
-                color: root.accentColor
-            }
-
-            // --- STATUS ROW ---
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: 6
-
-                Rectangle {
-                    height: 20
-                    radius: 3
-                    color: root.updatesCount > 0 ? "#331c2d" : "#1c2e22"
-                    border.width: 1
-                    border.color: root.updatesCount > 0 ? root.accentColor : "#44aa66"
-                    Layout.preferredWidth: badgeText.implicitWidth + 12
-
-                    Text {
-                        id: badgeText
-                        anchors.centerIn: parent
-                        text: root.updatesCount > 0 ? (root.updatesCount + " available") : "Up to date 󰄬"
-                        color: root.updatesCount > 0 ? root.accentColor : "#66cc88"
-                        font.pixelSize: 10
-                        font.bold: true
-                        font.family: "monospace"
-                    }
-                }
-
-                Item { Layout.fillWidth: true }
-
-                Text {
-                    text: root.checkTime ? ("Checked " + root.checkTime) : ""
-                    color: root.inactiveColor
-                    font.pixelSize: 10
-                    font.family: "monospace"
-                }
             }
 
             // --- SEARCH / FILTER BOX ---
             Rectangle {
                 id: searchBoxRect
                 Layout.fillWidth: true
-                height: 28
-                color: "#181820"
+                height: 26
+                radius: 2
+                color: filterInput.activeFocus ? "#dfcbb0" : "#e5d3ba"
                 border.width: 1
-                border.color: filterInput.activeFocus ? root.accentColor : root.sepColor
+                border.color: filterInput.activeFocus ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.bg2 ?? "#d5c4a1")
 
                 MouseArea {
                     anchors.fill: parent
@@ -234,8 +288,9 @@ PanelWindow {
 
                     Text {
                         text: "󰍉"
-                        color: filterInput.activeFocus ? root.accentColor : root.inactiveColor
-                        font.pixelSize: 13
+                        color: filterInput.activeFocus ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20")
+                        opacity: filterInput.activeFocus ? 1.0 : 0.65
+                        font.pixelSize: 12
                         font.family: "AurulentSansMNerdFontPropo"
                         Layout.alignment: Qt.AlignVCenter
                     }
@@ -248,11 +303,11 @@ PanelWindow {
                             id: filterInput
                             anchors.fill: parent
                             verticalAlignment: TextInput.AlignVCenter
-                            color: root.textColor
-                            font.pixelSize: 11
-                            font.family: "monospace"
+                            color: popupCfg?.fg ?? "#3a2a20"
+                            font.pixelSize: 12
+                            font.family: popupCfg?.fontWidget ?? "EB Garamond"
                             selectByMouse: true
-                            selectionColor: root.accentColor
+                            selectionColor: popupCfg?.gold ?? "#b5893f"
                             selectedTextColor: "#ffffff"
                             clip: true
                             focus: true
@@ -278,9 +333,11 @@ PanelWindow {
                                 anchors.fill: parent
                                 verticalAlignment: Text.AlignVCenter
                                 text: "Filter packages..."
-                                color: root.inactiveColor
-                                font.pixelSize: 11
-                                font.family: "monospace"
+                                color: popupCfg?.fg ?? "#3a2a20"
+                                opacity: 0.45
+                                font.pixelSize: 12
+                                font.italic: true
+                                font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                 visible: !filterInput.text && !filterInput.activeFocus
                             }
                         }
@@ -289,7 +346,8 @@ PanelWindow {
                     Text {
                         visible: filterInput.text.length > 0
                         text: "✖"
-                        color: clearSearchMouse.containsMouse ? root.accentColor : root.inactiveColor
+                        color: clearSearchMouse.containsMouse ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.fg ?? "#3a2a20")
+                        opacity: 0.7
                         font.pixelSize: 10
                         Layout.alignment: Qt.AlignVCenter
 
@@ -322,7 +380,7 @@ PanelWindow {
 
                     Text {
                         text: root.isChecking ? "󰑐" : (root.updatesCount === 0 ? "󰄬" : "󰍉")
-                        color: root.updatesCount === 0 ? root.accentColor : root.inactiveColor
+                        color: root.updatesCount === 0 ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.bg2 ?? "#d5c4a1")
                         font.pixelSize: 28
                         font.family: "AurulentSansMNerdFontPropo"
                         Layout.alignment: Qt.AlignHCenter
@@ -342,10 +400,10 @@ PanelWindow {
                             if (root.searchQuery.length > 0) return "No matching packages"
                             return "All packages are up to date"
                         }
-                        color: root.textColor
+                        color: popupCfg?.fg ?? "#3a2a20"
                         font.pixelSize: 12
                         font.bold: true
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontWidget ?? "EB Garamond"
                         Layout.alignment: Qt.AlignHCenter
                     }
                 }
@@ -356,7 +414,7 @@ PanelWindow {
                     anchors.fill: parent
                     visible: root.filteredList.length > 0
                     clip: true
-                    spacing: 4
+                    spacing: 3
                     boundsBehavior: Flickable.StopAtBounds
                     model: root.filteredList
 
@@ -366,17 +424,19 @@ PanelWindow {
                         contentItem: Rectangle {
                             implicitWidth: 4
                             radius: 2
-                            color: root.accentColor
-                            opacity: 0.5
+                            color: popupCfg?.gold ?? "#b5893f"
+                            opacity: 0.35
                         }
                     }
 
                     delegate: Rectangle {
+                        id: pkgCard
                         width: updatesListView.width - (updatesListView.contentHeight > updatesListView.height ? 8 : 0)
-                        height: pkgCol.implicitHeight + 10
-                        color: itemMouse.containsMouse ? "#1c1c24" : "#16161d"
+                        height: pkgCol.implicitHeight + 8
+                        radius: 2
+                        color: itemMouse.containsMouse ? "#eedbc2" : "transparent"
+                        border.color: itemMouse.containsMouse ? (popupCfg?.gold ?? "#b5893f") : "transparent"
                         border.width: 1
-                        border.color: itemMouse.containsMouse ? root.accentColor : root.sepColor
 
                         MouseArea {
                             id: itemMouse
@@ -386,27 +446,33 @@ PanelWindow {
 
                         ColumnLayout {
                             id: pkgCol
-                            anchors.fill: parent
-                            anchors.margins: 6
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.margins: 4
+                            anchors.leftMargin: 6
+                            anchors.rightMargin: 6
                             spacing: 3
 
+                            // Package name and optional repo tag
                             RowLayout {
                                 Layout.fillWidth: true
                                 spacing: 6
 
                                 Text {
                                     text: "󰏔"
-                                    color: root.accentColor
-                                    font.pixelSize: 12
+                                    color: itemMouse.containsMouse ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20")
+                                    opacity: itemMouse.containsMouse ? 1.0 : 0.75
+                                    font.pixelSize: 13
                                     font.family: "AurulentSansMNerdFontPropo"
                                 }
 
                                 Text {
                                     text: modelData.name
-                                    color: root.textColor
-                                    font.pixelSize: 11
+                                    color: itemMouse.containsMouse ? (popupCfg?.gold ?? "#b5893f") : (popupCfg?.fg ?? "#3a2a20")
+                                    font.pixelSize: 13
                                     font.bold: true
-                                    font.family: "monospace"
+                                    font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                     elide: Text.ElideRight
                                     Layout.fillWidth: true
                                 }
@@ -415,47 +481,51 @@ PanelWindow {
                                     visible: Boolean(modelData.extra && modelData.extra.length > 0)
                                     height: 14
                                     radius: 2
-                                    color: "#282024"
+                                    color: "transparent"
                                     border.width: 1
-                                    border.color: root.inactiveColor
-                                    Layout.preferredWidth: extraText.implicitWidth + 6
+                                    border.color: popupCfg?.gold ?? "#b5893f"
+                                    Layout.preferredWidth: extraText.implicitWidth + 8
 
                                     Text {
                                         id: extraText
                                         anchors.centerIn: parent
                                         text: modelData.extra ? modelData.extra : ""
-                                        color: root.inactiveColor
-                                        font.pixelSize: 8
-                                        font.family: "monospace"
+                                        color: popupCfg?.gold ?? "#b5893f"
+                                        font.pixelSize: 9
+                                        font.bold: true
+                                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                                     }
                                 }
                             }
 
+                            // Version transition: old -> new
                             RowLayout {
                                 Layout.fillWidth: true
+                                Layout.leftMargin: 19
                                 spacing: 4
 
                                 Text {
                                     text: modelData.oldVersion
-                                    color: root.inactiveColor
-                                    font.pixelSize: 10
-                                    font.family: "monospace"
+                                    color: popupCfg?.fg ?? "#3a2a20"
+                                    opacity: 0.6
+                                    font.pixelSize: 11
+                                    font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                     elide: Text.ElideRight
                                     Layout.maximumWidth: 120
                                 }
 
                                 Text {
                                     text: "➔"
-                                    color: root.accentColor
+                                    color: popupCfg?.gold ?? "#b5893f"
                                     font.pixelSize: 9
                                 }
 
                                 Text {
                                     text: modelData.newVersion
-                                    color: root.accentColor
-                                    font.pixelSize: 10
+                                    color: popupCfg?.gold ?? "#b5893f"
+                                    font.pixelSize: 11
                                     font.bold: true
-                                    font.family: "monospace"
+                                    font.family: popupCfg?.fontWidget ?? "EB Garamond"
                                     elide: Text.ElideRight
                                     Layout.fillWidth: true
                                 }
@@ -469,16 +539,18 @@ PanelWindow {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: root.sepColor
+                color: popupCfg?.bg2 ?? "#d5c4a1"
+                opacity: 0.7
             }
 
             // --- BOTTOM UPGRADE BUTTON ---
             Rectangle {
                 Layout.fillWidth: true
-                height: 36
-                color: upgradeBtnMouse.containsMouse ? "#281e30" : "transparent"
+                height: 32
+                radius: 2
+                color: upgradeBtnMouse.containsMouse ? (popupCfg?.red ?? "#7a362d") : "transparent"
                 border.width: 1
-                border.color: upgradeBtnMouse.containsMouse ? root.accentColor : root.sepLightColor
+                border.color: upgradeBtnMouse.containsMouse ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.gold ?? "#b5893f")
 
                 RowLayout {
                     anchors.centerIn: parent
@@ -486,17 +558,17 @@ PanelWindow {
 
                     Text {
                         text: "󰮯"
-                        color: upgradeBtnMouse.containsMouse ? root.accentColor : root.textColor
+                        color: upgradeBtnMouse.containsMouse ? "#ffffff" : (popupCfg?.gold ?? "#b5893f")
                         font.pixelSize: 14
                         font.family: "AurulentSansMNerdFontPropo"
                     }
 
                     Text {
                         text: "UPGRADE IN TERMINAL"
-                        color: upgradeBtnMouse.containsMouse ? root.accentColor : root.textColor
-                        font.pixelSize: 11
+                        color: upgradeBtnMouse.containsMouse ? "#ffffff" : (popupCfg?.fg ?? "#3a2a20")
+                        font.pixelSize: 10
                         font.bold: true
-                        font.family: "monospace"
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                     }
                 }
 
@@ -522,11 +594,11 @@ PanelWindow {
     DropShadow {
         source: popupRect
         anchors.fill: popupRect
-        horizontalOffset: 15
-        verticalOffset: 15
-        radius: 15
+        horizontalOffset: 12
+        verticalOffset: 12
+        radius: 14
         samples: 16
-        color: "#A6000000"
+        color: "#353a2a20"
         transparentBorder: true
     }
 

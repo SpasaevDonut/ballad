@@ -1,24 +1,35 @@
 import QtQuick
 import QtQuick.Layouts
 
-Column {
-    property color sepColor: "#2F2F38"
-    property color sepLightColor: "#505050"
+Item {
+    id: root
+
+    property color sepColor: "#d5c4a1"
+    property color sepLightColor: "#f1e5ce"
+    property color ornamentColor: "#b5893f"
+    property string fontOrnaments: "Bodoni Ornaments ITC"
     property int barWidth: 46
 
-    Layout.alignment: Qt.AlignHCenter
-    Layout.topMargin: 4
-    Layout.bottomMargin: 4
-    spacing: 0
+    property string text: "\u00B7"
+    property int fontSize: 14
+    property int yOffset: -5
 
-    Rectangle {
-        width: barWidth - 14
-        height: 2
-        color: sepColor
-    }
-    Rectangle {
-        width: barWidth - 14
-        height: 1
-        color: sepLightColor
+    Layout.alignment: Qt.AlignHCenter
+    Layout.preferredWidth: barWidth
+    Layout.preferredHeight: 14
+    Layout.topMargin: 2
+    Layout.bottomMargin: 2
+
+    // Visually centered Bodoni divider rule (compensated for font baseline asymmetry)
+    Text {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: root.yOffset
+        text: root.text
+        font.family: root.fontOrnaments
+        font.pixelSize: root.fontSize
+        color: root.ornamentColor
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
     }
 }

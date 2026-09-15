@@ -62,10 +62,10 @@ PopupWindow {
 
         width: 190
         height: menuColumn.height + 12
-        color: popupCfg.popupBgColor
-        border.color: popupCfg.inactiveColor
+        color: popupCfg?.popupBgColor ?? popupCfg?.bg0 ?? "#f1e5ce"
+        border.color: popupCfg?.bg2 ?? "#d5c4a1"
         border.width: 1
-        radius: 4
+        radius: 3
 
         MouseArea {
             anchors.fill: parent
@@ -91,14 +91,14 @@ PopupWindow {
                 delegate: Rectangle {
                     width: parent.width
                     height: 26
-                    color: marea.containsMouse ? popupCfg.inactiveColor : "transparent"
-                    radius: 3
+                    color: marea.containsMouse ? "#25b5893f" : "transparent"
+                    radius: 2
 
                     Text {
                         text: modelData.text
-                        color: popupCfg.textColor
-                        font.pixelSize: 11
-                        font.family: "monospace"
+                        color: marea.containsMouse ? (popupCfg?.red ?? "#7a362d") : (popupCfg?.fg ?? "#3a2a20")
+                        font.pixelSize: 10
+                        font.family: popupCfg?.fontTitle ?? "Cinzel"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 6
@@ -123,16 +123,17 @@ PopupWindow {
             Rectangle {
                 width: parent.width
                 height: 1
-                color: popupCfg.inactiveColor
+                color: popupCfg?.bg2 ?? "#d5c4a1"
+                opacity: 0.7
             }
             Item { width: parent.width; height: 3 }
 
             Text {
-                text: "Move to workspace"
-                color: popupCfg.inactiveColor
-                font.pixelSize: 10
+                text: "MOVE TO WORKSPACE"
+                color: popupCfg?.fg ?? "#3a2a20"
+                font.pixelSize: 9
                 font.bold: true
-                font.family: "monospace"
+                font.family: popupCfg?.fontTitle ?? "Cinzel"
                 leftPadding: 6
                 bottomPadding: 2
             }
@@ -151,14 +152,14 @@ PopupWindow {
                 delegate: Rectangle {
                     width: parent.width
                     height: 22
-                    color: wmarea.containsMouse ? popupCfg.inactiveColor : "transparent"
-                    radius: 3
+                    color: wmarea.containsMouse ? "#25b5893f" : "transparent"
+                    radius: 2
 
                     Text {
                         text: modelData.name ? modelData.name : ("WS " + modelData.id)
-                        color: modelData.is_focused ? popupCfg.accentColor : popupCfg.existingColor
-                        font.pixelSize: 11
-                        font.family: "monospace"
+                        color: modelData.is_focused ? (popupCfg?.goldBright ?? "#d5a86d") : (popupCfg?.fg ?? "#3a2a20")
+                        font.pixelSize: 10
+                        font.family: popupCfg?.fontRoman ?? "Cinzel Decorative"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 12
@@ -185,11 +186,11 @@ PopupWindow {
     DropShadow {
         source: menuRect
         anchors.fill: menuRect
-        horizontalOffset: 15
-        verticalOffset: 15
-        radius: 15
+        horizontalOffset: 10
+        verticalOffset: 10
+        radius: 12
         samples: 16
-        color: "#A6000000"
+        color: "#353a2a20"
         transparentBorder: true
     }
 

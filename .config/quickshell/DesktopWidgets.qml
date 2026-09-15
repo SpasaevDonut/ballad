@@ -1,6 +1,7 @@
 //@ pragma UseQApplication
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
@@ -10,6 +11,9 @@ PanelWindow {
     
     property QtObject sysData: null
     property QtObject cfg: null
+    readonly property color tickActiveColor: "#a17228"
+    readonly property color tickActiveBorder: "#734e1b"
+    readonly property color tickInactiveColor: Qt.rgba(0.23, 0.16, 0.13, 0.14)
     
     anchors {
         top: true
@@ -30,11 +34,11 @@ PanelWindow {
             anchors.left: parent.left
             anchors.leftMargin: cfg.barWidth + 120
             anchors.verticalCenter: parent.verticalCenter
-            spacing: 40
+            spacing: 12
 
             Column {
                 id: clockColumn
-                spacing: 5
+                spacing: 4
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 SystemClock {
@@ -42,550 +46,315 @@ PanelWindow {
                     precision: SystemClock.Seconds
                 }
 
-                Text {
-                    id: timeText
-                    text: Qt.formatDateTime(desktopClock.date, "hh:mm")
-                    color: cfg.textColor
-                    font.pixelSize: 64
-                    font.bold: true
-                    font.family: "AurulentSansMNerdFontPropo"
+                Item {
+                    width: timeText.implicitWidth
+                    height: 88
                     anchors.horizontalCenter: parent.horizontalCenter
+
+                    Text {
+                        id: timeText
+                        y: -16
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: Qt.formatDateTime(desktopClock.date, "hh:mm")
+                        color: cfg?.fg ?? "#3a2a20"
+                        font.pixelSize: 76
+                        font.bold: true
+                        font.family: cfg?.fontTitle ?? "Cinzel"
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    MultiEffect {
+                        source: timeText
+                        anchors.fill: timeText
+                        shadowEnabled: true
+                        shadowColor: "#80d5a86d"
+                        shadowHorizontalOffset: 1
+                        shadowVerticalOffset: 1
+                        shadowBlur: 0.1
+                    }
                 }
+
                 Text {
                     id: dateText
                     text: Qt.formatDateTime(desktopClock.date, "dddd, d MMMM")
-                    color: cfg.existingColor
-                    font.pixelSize: 24
-                    font.family: "AurulentSansMNerdFontPropo"
+                    color: cfg?.red ?? "#7a362d"
+                    font.pixelSize: 26
+                    font.family: cfg?.fontAccent ?? "Berkshire Swash"
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
+            Text {
+                text: "t"
+                font.family: cfg?.fontBodoni ?? "Bodoni Ornaments ITC"
+                font.pixelSize: 22
+                color: cfg?.gold ?? "#b5893f"
+                opacity: 0.85
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
             GridLayout {
                 columns: 2
-                columnSpacing: 50
-                rowSpacing: 40
+                columnSpacing: 44
+                rowSpacing: 20
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                // 1. CPU WIDGET (Left Column)
+                // 1. CPU (Left)
                 RowLayout {
-                    spacing: 20
-                    
-                    Image {
-                        source: "cpu.svg"
-                        sourceSize.width: 45
-                        sourceSize.height: 45
-                        width: 45
-                        height: 45
-                        fillMode: Image.PreserveAspectFit
-                        Layout.alignment: Qt.AlignVCenter
+                    spacing: 12
+                    Rectangle {
+                        width: 36; height: 36; radius: 18
+                        color: cfg?.fg ?? "#3a2a20"
+                        border.color: cfg?.gold ?? "#b5893f"; border.width: 1.5
+                        Text { anchors.centerIn: parent; text: "󰘚"; color: cfg?.goldBright ?? "#d5a86d"; font.family: cfg?.fontIcons ?? "AurulentSansMNerdFontPropo"; font.pixelSize: 18 }
                     }
-                    
                     ColumnLayout {
-                        spacing: 8
-                        Layout.alignment: Qt.AlignVCenter
-                        
-                        Row {
-                            spacing: 6
-                            Layout.alignment: Qt.AlignLeft
-                            Repeater {
-                                model: 8
-                                Column {
-                                    spacing: 3
-                                    property int active: Math.max(0, Math.min(10, Math.round(sysData.cpuPercent / 10)))
-                                    Repeater {
-                                        model: 10
-                                        Rectangle {
-                                            width: 14
-                                            height: 3
-                                            color: index >= (10 - parent.active) ? cfg.accentColor : cfg.inactiveColor
-                                        }
-                                    }
-                                
-                                    Timer { 
-                                        interval: 2000
-                                        running: true
-                                        repeat: true
-                                        onTriggered: { 
-                                            parent.active = Math.max(0, Math.min(10, Math.round(sysData.cpuPercent / 10)))
-                                        } 
-                                    }
-                                }
-                            }
-                        }
-                        Column {
-                            spacing: 4
-                            Layout.alignment: Qt.AlignHCenter
-                            Row { 
-                                spacing: 4
-                                Repeater { 
-                                    model: 38
-                                    Rectangle { 
-                                        width: 6
-                                        height: 2
-                                        color: index < 3 ? cfg.accentColor : cfg.inactiveColor 
-                                    } 
-                                } 
-                            }
-                            Row { 
-                                spacing: 4
-                                Repeater { 
-                                    model: 38
-                                    Rectangle { 
-                                        width: 6
-                                        height: 2
-                                        color: index < 2 ? cfg.accentColor : cfg.inactiveColor 
-                                    } 
-                                } 
-                            }
-                        }
-                    }
-                }
-
-                // 2. NETWORK WIDGET (Right Column)
-                RowLayout {
-                    spacing: 15
-                    
-                    ColumnLayout {
-                        spacing: 4
-                        Image {
-                            source: "down.svg"
-                            sourceSize.width: 24
-                            sourceSize.height: 24
-                            width: 24
-                            height: 24
-                            Layout.alignment: Qt.AlignHCenter
-                        }
-                        Column {
-                            spacing: 4
-                            Layout.alignment: Qt.AlignHCenter
-                            Repeater { 
-                                model: 4
-                                Rectangle { 
-                                    width: 12
-                                    height: 2
-                                    color: index >= 4 - Math.round(sysData.dlRatio * 4) ? cfg.accentColor : cfg.inactiveColor
-                                } 
-                            }
-                        }
-                        Image {
-                            source: "up.svg"
-                            sourceSize.width: 24
-                            sourceSize.height: 24
-                            width: 24
-                            height: 24
-                            Layout.alignment: Qt.AlignHCenter
-                        }
-                    }
-                    
-                    ColumnLayout {
-                        spacing: 6
-                        Row { 
-                            spacing: 3
-                            Repeater { 
-                                model: 50
-                                Rectangle { 
-                                    width: 4
-                                    height: 2
-                                    color: index < Math.round(sysData.dlRatio * 50) ? cfg.accentColor : cfg.inactiveColor 
-                                } 
-                            } 
-                        }
+                        spacing: 3
                         RowLayout {
-                            Rectangle { 
-                                width: 2
-                                height: 8
-                                color: cfg.accentColor 
-                            }
-                            Text { 
-                                text: sysData.downloadStr
-                                color: cfg.inactiveColor
-                                font.family: "AurulentSansMNerdFontPropo"
-                                font.pixelSize: 14 
-                            }
+                            spacing: 8
+                            Text { text: "PROCESSOR"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 11; font.bold: true }
+                            Text { text: (sysData ? sysData.cpuPercent : 0) + "%"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 14; font.bold: true }
                         }
-                        Row { 
-                            spacing: 3
-                            Repeater { 
-                                model: 50
-                                Rectangle { 
-                                    width: 4
-                                    height: 2
-                                    color: index < Math.round(sysData.ulRatio * 50) ? cfg.accentColor : cfg.inactiveColor 
-                                } 
-                            } 
-                        }
-                        RowLayout {
-                            Rectangle { 
-                                width: 2
-                                height: 8
-                                color: cfg.accentColor 
-                            }
-                            Text { 
-                                text: sysData.uploadStr
-                                color: cfg.inactiveColor
-                                font.family: "AurulentSansMNerdFontPropo"
-                                font.pixelSize: 14 
-                            }
-                        }
-                    }
-                }
-
-                // 3. RAM WIDGET (Left Column)
-                RowLayout {
-                    spacing: 20
-                    
-                    Image {
-                        source: "transmission.svg"
-                        sourceSize.width: 45
-                        sourceSize.height: 45
-                        width: 45
-                        height: 45
-                        fillMode: Image.PreserveAspectFit
-                    }
-                    
-                    ColumnLayout {
-                        spacing: 8
                         Row {
-                            spacing: 4
+                            spacing: 3
                             Repeater {
                                 model: 24
                                 Rectangle {
-                                    width: 4
-                                    height: 24
-                                    color: index < sysData.ramBlocks ? cfg.accentColor : cfg.inactiveColor
+                                    width: 4; height: 9; radius: 1
+                                    color: index < Math.round((sysData ? sysData.cpuPercent : 0) / 100 * 24) ? desktopWidgets.tickActiveColor : desktopWidgets.tickInactiveColor
+                                    border.color: index < Math.round((sysData ? sysData.cpuPercent : 0) / 100 * 24) ? desktopWidgets.tickActiveBorder : "transparent"
+                                    border.width: 0.5
                                 }
                             }
                         }
-                        Column {
-                            spacing: 4
-                            Row { 
-                                spacing: 4
-                                Repeater { 
-                                    model: 38
-                                    Rectangle { 
-                                        width: 6
-                                        height: 2
-                                        color: index < 5 ? cfg.accentColor : cfg.inactiveColor 
-                                    } 
-                                } 
-                            }
-                            Row { 
-                                spacing: 4
-                                Repeater { 
-                                    model: 38
-                                    Rectangle { 
-                                        width: 6
-                                        height: 2
-                                        color: index < 4 ? cfg.accentColor : cfg.inactiveColor 
-                                    } 
-                                } 
-                            }
-                        }
                     }
                 }
 
-                // 4. DISK I/O WIDGET (Right Column)
+                // 2. NETWORK (Right)
                 RowLayout {
-                    spacing: 15
-                    
-                    ColumnLayout {
-                        spacing: 4
-                        Image {
-                            source: "up.svg"
-                            sourceSize.width: 24
-                            sourceSize.height: 24
-                            width: 24
-                            height: 24
-                            Layout.alignment: Qt.AlignHCenter
-                        }
-                        Column {
-                            spacing: 4
-                            Layout.alignment: Qt.AlignHCenter
-                            Repeater { 
-                                model: 4
-                                Rectangle { 
-                                    width: 12
-                                    height: 2
-                                    color: index >= 4 - Math.round(sysData.diskReadRatio * 4) ? cfg.accentColor : cfg.inactiveColor
-                                } 
-                            }
-                        }
-                        Image {
-                            source: "down.svg"
-                            sourceSize.width: 24
-                            sourceSize.height: 24
-                            width: 24
-                            height: 24
-                            Layout.alignment: Qt.AlignHCenter
-                        }
+                    spacing: 12
+                    Rectangle {
+                        width: 36; height: 36; radius: 18
+                        color: cfg?.fg ?? "#3a2a20"
+                        border.color: cfg?.gold ?? "#b5893f"; border.width: 1.5
+                        Text { anchors.centerIn: parent; text: "󰛳"; color: cfg?.goldBright ?? "#d5a86d"; font.family: cfg?.fontIcons ?? "AurulentSansMNerdFontPropo"; font.pixelSize: 18 }
                     }
-                    
                     ColumnLayout {
-                        spacing: 6
-                        Row { 
-                            spacing: 3
-                            Repeater { 
-                                model: 50
-                                Rectangle { 
-                                    width: 4
-                                    height: 2
-                                    color: index < Math.round(sysData.diskReadRatio * 50) ? cfg.accentColor : cfg.inactiveColor 
-                                } 
-                            } 
-                        }
+                        spacing: 3
                         RowLayout {
-                            Rectangle { 
-                                width: 2
-                                height: 8
-                                color: cfg.accentColor 
-                            }
-                            Text { 
-                                text: sysData.diskReadStr
-                                color: cfg.inactiveColor
-                                font.family: "AurulentSansMNerdFontPropo"
-                                font.pixelSize: 14 
+                            spacing: 6
+                            Text { text: "NETWORK"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 11; font.bold: true }
+                            RowLayout {
+                                spacing: 4
+                                Text { text: "↓"; color: cfg?.red ?? "#7a362d"; font.pixelSize: 11; font.bold: true }
+                                Text { text: sysData?.downloadStr ?? "0B"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 13; font.bold: true }
+                                Item { width: 2 }
+                                Text { text: "↑"; color: cfg?.red ?? "#7a362d"; font.pixelSize: 11; font.bold: true }
+                                Text { text: sysData?.uploadStr ?? "0B"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 13; font.bold: true }
                             }
                         }
-                        Row { 
+                        Row {
                             spacing: 3
-                            Repeater { 
-                                model: 50
-                                Rectangle { 
-                                    width: 4
-                                    height: 2
-                                    color: index < Math.round(sysData.diskWriteRatio * 50) ? cfg.accentColor : cfg.inactiveColor 
-                                } 
-                            } 
-                        }
-                        RowLayout {
-                            Rectangle { 
-                                width: 2
-                                height: 8
-                                color: cfg.accentColor 
-                            }
-                            Text { 
-                                text: sysData.diskWriteStr
-                                color: cfg.inactiveColor
-                                font.family: "AurulentSansMNerdFontPropo"
-                                font.pixelSize: 14 
-                            }
-                        }
-                    }
-                }
-
-                // 5. DISK USAGE WIDGET (Left Column)
-                RowLayout {
-                    spacing: 20
-                    
-                    Image {
-                        source: "storage.svg"
-                        sourceSize.width: 45
-                        sourceSize.height: 45
-                        width: 45
-                        height: 45
-                        fillMode: Image.PreserveAspectFit
-                    }
-                    
-                    ColumnLayout {
-                        spacing: 8
-                        Column {
-                            spacing: 4
                             Repeater {
-                                model: 5 
-                                Row {
-                                    spacing: 4
-                                    property int rowIdx: index
-                                    Repeater {
-                                        model: 38 
-                                        Rectangle {
-                                            width: 2
-                                            height: 6
-                                            
-                                            property bool isFilled: (parent.rowIdx * 38 + index) < ((sysData.storagePercent / 100.0) * 190)
-                                            
-                                            color: isFilled ? cfg.accentColor : cfg.inactiveColor
-                                        }
-                                    }
+                                model: 24
+                                Rectangle {
+                                    width: 4; height: 9; radius: 1
+                                    color: index < Math.round((sysData ? Math.max(sysData.dlRatio, sysData.ulRatio) : 0) * 24) ? desktopWidgets.tickActiveColor : desktopWidgets.tickInactiveColor
+                                    border.color: index < Math.round((sysData ? Math.max(sysData.dlRatio, sysData.ulRatio) : 0) * 24) ? desktopWidgets.tickActiveBorder : "transparent"
+                                    border.width: 0.5
                                 }
                             }
                         }
-                        Column {
-                            spacing: 4
-                            Row { 
+                    }
+                }
+
+                // 3. RAM (Left)
+                RowLayout {
+                    spacing: 12
+                    Rectangle {
+                        width: 36; height: 36; radius: 18
+                        color: cfg?.fg ?? "#3a2a20"
+                        border.color: cfg?.gold ?? "#b5893f"; border.width: 1.5
+                        Text { anchors.centerIn: parent; text: "󰍛"; color: cfg?.goldBright ?? "#d5a86d"; font.family: cfg?.fontIcons ?? "AurulentSansMNerdFontPropo"; font.pixelSize: 18 }
+                    }
+                    ColumnLayout {
+                        spacing: 3
+                        RowLayout {
+                            spacing: 8
+                            Text { text: "MEMORY"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 11; font.bold: true }
+                            Text { text: (sysData ? Math.round((sysData.ramBlocks / 24) * 100) : 0) + "%"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 14; font.bold: true }
+                        }
+                        Row {
+                            spacing: 3
+                            Repeater {
+                                model: 24
+                                Rectangle {
+                                    width: 4; height: 9; radius: 1
+                                    color: index < (sysData ? sysData.ramBlocks : 0) ? desktopWidgets.tickActiveColor : desktopWidgets.tickInactiveColor
+                                    border.color: index < (sysData ? sysData.ramBlocks : 0) ? desktopWidgets.tickActiveBorder : "transparent"
+                                    border.width: 0.5
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 4. DISK I/O (Right)
+                RowLayout {
+                    spacing: 12
+                    Rectangle {
+                        width: 36; height: 36; radius: 18
+                        color: cfg?.fg ?? "#3a2a20"
+                        border.color: cfg?.gold ?? "#b5893f"; border.width: 1.5
+                        Text { anchors.centerIn: parent; text: "󰆼"; color: cfg?.goldBright ?? "#d5a86d"; font.family: cfg?.fontIcons ?? "AurulentSansMNerdFontPropo"; font.pixelSize: 18 }
+                    }
+                    ColumnLayout {
+                        spacing: 3
+                        RowLayout {
+                            spacing: 6
+                            Text { text: "DISK I/O"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 11; font.bold: true }
+                            RowLayout {
                                 spacing: 4
-                                Repeater { 
-                                    model: 38
-                                    Rectangle { 
-                                        width: 6
-                                        height: 2
-                                        color: index < 5 ? cfg.accentColor : cfg.inactiveColor 
-                                    } 
-                                } 
+                                Text { text: "R"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 10; font.bold: true }
+                                Text { text: sysData?.diskReadStr ?? "0B"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 13; font.bold: true }
+                                Item { width: 2 }
+                                Text { text: "W"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 10; font.bold: true }
+                                Text { text: sysData?.diskWriteStr ?? "0B"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 13; font.bold: true }
                             }
-                            Row { 
-                                spacing: 4
-                                Repeater { 
-                                    model: 38
-                                    Rectangle { 
-                                        width: 6
-                                        height: 2
-                                        color: index < 4 ? cfg.accentColor : cfg.inactiveColor 
-                                    } 
-                                } 
+                        }
+                        Row {
+                            spacing: 3
+                            Repeater {
+                                model: 24
+                                Rectangle {
+                                    width: 4; height: 9; radius: 1
+                                    color: index < Math.round((sysData ? Math.max(sysData.diskReadRatio, sysData.diskWriteRatio) : 0) * 24) ? desktopWidgets.tickActiveColor : desktopWidgets.tickInactiveColor
+                                    border.color: index < Math.round((sysData ? Math.max(sysData.diskReadRatio, sysData.diskWriteRatio) : 0) * 24) ? desktopWidgets.tickActiveBorder : "transparent"
+                                    border.width: 0.5
+                                }
                             }
                         }
                     }
                 }
 
-                // 6. TEMP 1 WIDGET (Right Column)
+                // 5. STORAGE (Left)
                 RowLayout {
-                    spacing: 20
-                    
-                    Image {
-                        source: "thermometer.svg"
-                        sourceSize.width: 45
-                        sourceSize.height: 45
-                        width: 45
-                        height: 45
-                        fillMode: Image.PreserveAspectFit
+                    spacing: 12
+                    Rectangle {
+                        width: 36; height: 36; radius: 18
+                        color: cfg?.fg ?? "#3a2a20"
+                        border.color: cfg?.gold ?? "#b5893f"; border.width: 1.5
+                        Text { anchors.centerIn: parent; text: "󰋊"; color: cfg?.goldBright ?? "#d5a86d"; font.family: cfg?.fontIcons ?? "AurulentSansMNerdFontPropo"; font.pixelSize: 18 }
                     }
-                    
                     ColumnLayout {
-                        spacing: 4
+                        spacing: 3
                         RowLayout {
-                            spacing: 10
-                            Row {
-                                spacing: 3
-                                Repeater {
-                                    model: 30
-                                    Rectangle {
-                                        width: 2
-                                        height: 8
-                                        color: index < Math.round((sysData.temp1 / 100.0) * 30) ? cfg.accentColor : cfg.inactiveColor
-                                    }
-                                }
-                            }
-                            Text {
-                                text: sysData.temp1 + " °C"
-                                color: cfg.inactiveColor
-                                font.family: "AurulentSansMNerdFontPropo"
-                                font.pixelSize: 12
-                                Layout.preferredWidth: 40
-                            }
+                            spacing: 8
+                            Text { text: "STORAGE"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 11; font.bold: true }
+                            Text { text: (sysData ? sysData.storagePercent : 0) + "%"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 14; font.bold: true }
                         }
-                        RowLayout {
-                            spacing: 10
-                            Row {
-                                spacing: 3
-                                Repeater {
-                                    model: 30
-                                    Rectangle { width: 2; height: 8; color: index < 18 ? cfg.accentColor : cfg.inactiveColor }
+                        Row {
+                            spacing: 3
+                            Repeater {
+                                model: 24
+                                Rectangle {
+                                    width: 4; height: 9; radius: 1
+                                    color: index < Math.round((sysData ? sysData.storagePercent : 0) / 100 * 24) ? desktopWidgets.tickActiveColor : desktopWidgets.tickInactiveColor
+                                    border.color: index < Math.round((sysData ? sysData.storagePercent : 0) / 100 * 24) ? desktopWidgets.tickActiveBorder : "transparent"
+                                    border.width: 0.5
                                 }
                             }
-                            Text { text: "49 °C"; color: cfg.inactiveColor; font.family: "AurulentSansMNerdFontPropo"; font.pixelSize: 12; Layout.preferredWidth: 40 }
-                        }
-                        RowLayout {
-                            spacing: 10
-                            Row {
-                                spacing: 3
-                                Repeater {
-                                    model: 30
-                                    Rectangle { width: 2; height: 8; color: cfg.inactiveColor }
-                                }
-                            }
-                            Text { text: "OFF"; color: cfg.inactiveColor; font.family: "AurulentSansMNerdFontPropo"; font.pixelSize: 12; Layout.preferredWidth: 40 }
                         }
                     }
                 }
 
-                // 7. TEMP 2 WIDGET (Left Column)
+                // 6. THERMAL (Right)
                 RowLayout {
-                    spacing: 20
-                    
-                    Image {
-                        source: "thermometer.svg"
-                        sourceSize.width: 45
-                        sourceSize.height: 45
-                        width: 45
-                        height: 45
-                        fillMode: Image.PreserveAspectFit
+                    spacing: 12
+                    Rectangle {
+                        width: 36; height: 36; radius: 18
+                        color: cfg?.fg ?? "#3a2a20"
+                        border.color: cfg?.gold ?? "#b5893f"; border.width: 1.5
+                        Text { anchors.centerIn: parent; text: "󰔏"; color: cfg?.goldBright ?? "#d5a86d"; font.family: cfg?.fontIcons ?? "AurulentSansMNerdFontPropo"; font.pixelSize: 18 }
                     }
-                    
                     ColumnLayout {
-                        spacing: 4
+                        spacing: 3
                         RowLayout {
-                            spacing: 10
-                            Row {
-                                spacing: 3
-                                Repeater {
-                                    model: 30
-                                    Rectangle {
-                                        width: 2
-                                        height: 8
-                                        color: index < Math.round((sysData.temp2 / 100.0) * 30) ? cfg.accentColor : cfg.inactiveColor
-                                    }
-                                }
-                            }
-                            Text {
-                                text: sysData.temp2 + " °C"
-                                color: cfg.inactiveColor
-                                font.family: "AurulentSansMNerdFontPropo"
-                                font.pixelSize: 12
-                                Layout.preferredWidth: 40
-                            }
+                            spacing: 8
+                            Text { text: "THERMAL"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 11; font.bold: true }
+                            Text { text: (sysData ? sysData.temp1 : 0) + " °C"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 14; font.bold: true }
                         }
-                        RowLayout {
-                            spacing: 10
-                            Row {
-                                spacing: 3
-                                Repeater {
-                                    model: 30
-                                    Rectangle { width: 2; height: 8; color: index < 12 ? cfg.accentColor : cfg.inactiveColor }
+                        Row {
+                            spacing: 3
+                            Repeater {
+                                model: 24
+                                Rectangle {
+                                    width: 4; height: 9; radius: 1
+                                    color: index < Math.round((sysData ? sysData.temp1 : 0) / 100 * 24) ? desktopWidgets.tickActiveColor : desktopWidgets.tickInactiveColor
+                                    border.color: index < Math.round((sysData ? sysData.temp1 : 0) / 100 * 24) ? desktopWidgets.tickActiveBorder : "transparent"
+                                    border.width: 0.5
                                 }
                             }
-                            Text { text: "27 °C"; color: cfg.inactiveColor; font.family: "AurulentSansMNerdFontPropo"; font.pixelSize: 12; Layout.preferredWidth: 40 }
-                        }
-                        RowLayout {
-                            spacing: 10
-                            Row {
-                                spacing: 3
-                                Repeater {
-                                    model: 30
-                                    Rectangle { width: 2; height: 8; color: index < 16 ? cfg.accentColor : cfg.inactiveColor }
-                                }
-                            }
-                            Text { text: "37 °C"; color: cfg.inactiveColor; font.family: "AurulentSansMNerdFontPropo"; font.pixelSize: 12; Layout.preferredWidth: 40 }
                         }
                     }
                 }
 
-                // 8. FAN WIDGET (Right Column)
+                // 7. SYS TEMP (Left)
                 RowLayout {
-                    spacing: 20
-                    
-                    Image {
-                        source: "fan.svg"
-                        sourceSize.width: 45
-                        sourceSize.height: 45
-                        width: 45
-                        height: 45
-                        fillMode: Image.PreserveAspectFit
+                    spacing: 12
+                    Rectangle {
+                        width: 36; height: 36; radius: 18
+                        color: cfg?.fg ?? "#3a2a20"
+                        border.color: cfg?.gold ?? "#b5893f"; border.width: 1.5
+                        Text { anchors.centerIn: parent; text: "󰔏"; color: cfg?.goldBright ?? "#d5a86d"; font.family: cfg?.fontIcons ?? "AurulentSansMNerdFontPropo"; font.pixelSize: 18 }
                     }
-                    
                     ColumnLayout {
-                        spacing: 6
-                        Repeater {
-                            model: 2 
-                            Row {
-                                spacing: 3
-                                Repeater {
-                                    model: 40
-                                    Rectangle {
-                                        width: 2
-                                        height: 8
-                                        color: index < Math.round(sysData.fan1Ratio * 40) ? cfg.accentColor : cfg.inactiveColor
-                                    }
+                        spacing: 3
+                        RowLayout {
+                            spacing: 8
+                            Text { text: "SYS TEMP"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 11; font.bold: true }
+                            Text { text: (sysData ? sysData.temp2 : 0) + " °C"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 14; font.bold: true }
+                        }
+                        Row {
+                            spacing: 3
+                            Repeater {
+                                model: 24
+                                Rectangle {
+                                    width: 4; height: 9; radius: 1
+                                    color: index < Math.round((sysData ? sysData.temp2 : 0) / 100 * 24) ? desktopWidgets.tickActiveColor : desktopWidgets.tickInactiveColor
+                                    border.color: index < Math.round((sysData ? sysData.temp2 : 0) / 100 * 24) ? desktopWidgets.tickActiveBorder : "transparent"
+                                    border.width: 0.5
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 8. COOLING (Right)
+                RowLayout {
+                    spacing: 12
+                    Rectangle {
+                        width: 36; height: 36; radius: 18
+                        color: cfg?.fg ?? "#3a2a20"
+                        border.color: cfg?.gold ?? "#b5893f"; border.width: 1.5
+                        Text { anchors.centerIn: parent; text: "󰈐"; color: cfg?.goldBright ?? "#d5a86d"; font.family: cfg?.fontIcons ?? "AurulentSansMNerdFontPropo"; font.pixelSize: 18 }
+                    }
+                    ColumnLayout {
+                        spacing: 3
+                        RowLayout {
+                            spacing: 8
+                            Text { text: "COOLING"; color: cfg?.red ?? "#7a362d"; font.family: cfg?.fontTitle ?? "Cinzel"; font.pixelSize: 11; font.bold: true }
+                            Text { text: (sysData ? Math.round(sysData.fan1Ratio * 100) : 0) + "%"; color: cfg?.fg ?? "#3a2a20"; font.family: cfg?.fontWidget ?? "EB Garamond"; font.pixelSize: 14; font.bold: true }
+                        }
+                        Row {
+                            spacing: 3
+                            Repeater {
+                                model: 24
+                                Rectangle {
+                                    width: 4; height: 9; radius: 1
+                                    color: index < Math.round((sysData ? sysData.fan1Ratio : 0) * 24) ? desktopWidgets.tickActiveColor : desktopWidgets.tickInactiveColor
+                                    border.color: index < Math.round((sysData ? sysData.fan1Ratio : 0) * 24) ? desktopWidgets.tickActiveBorder : "transparent"
+                                    border.width: 0.5
                                 }
                             }
                         }

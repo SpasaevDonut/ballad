@@ -6,14 +6,15 @@ import Quickshell.Io
 Item {
     id: root
 
-    property color textColor: "#A3A0AF"
+    property color textColor: "#b5893f"
+    property string fontTitle: "Cinzel"
     property int barWidth: 46
 
     Layout.preferredWidth: barWidth
     Layout.preferredHeight: 18
     Layout.alignment: Qt.AlignHCenter
-    Layout.topMargin: 4
-    Layout.bottomMargin: 4
+    Layout.topMargin: 3
+    Layout.bottomMargin: 3
 
     property var layouts: []
     property int currentIndex: 0
@@ -31,9 +32,9 @@ Item {
         anchors.centerIn: parent
         text: root.layouts.length > 0 ? (root.layouts[root.currentIndex].includes("Russian") ? "RU" : "EN") : "--"
         color: root.textColor
-        font.pixelSize: 13
+        font.pixelSize: 11
         font.bold: true
-        font.family: "monospace"
+        font.family: root.fontTitle
     }
 
     Process {

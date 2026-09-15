@@ -5,10 +5,12 @@ import Quickshell
 Item {
     id: root
 
-    property color accentColor: "#C16FB8"
-    property color inactiveColor: "#5e5e65"
-    property color existingColor: "#939399"
-    property color textColor: "#A3A0AF"
+    property color accentColor: "#b5893f"
+    property color hoverColor: "#7a362d"
+    property color inactiveColor: "#d5c4a1"
+    property color existingColor: "#7a362d"
+    property color textColor: "#3a2a20"
+    property string fontWidget: "EB Garamond"
     property int barWidth: 46
     property int updatesCount: 0
     property bool isChecking: false
@@ -36,7 +38,7 @@ Item {
                 id: iconText
                 anchors.centerIn: parent
                 text: "󰮯"
-                color: mouseArea.containsMouse ? root.accentColor : (root.updatesCount > 0 ? root.accentColor : root.inactiveColor)
+                color: mouseArea.containsMouse ? root.hoverColor : root.accentColor
                 font.pixelSize: 18
                 font.family: "AurulentSansMNerdFontPropo"
 
@@ -56,10 +58,10 @@ Item {
         Text {
             visible: root.updatesCount > 0
             text: root.updatesCount > 999 ? "999+" : root.updatesCount.toString()
-            color: mouseArea.containsMouse ? root.accentColor : root.textColor
+            color: mouseArea.containsMouse ? root.hoverColor : root.textColor
             font.pixelSize: 11
             font.bold: true
-            font.family: "monospace"
+            font.family: root.fontWidget
             horizontalAlignment: Text.AlignHCenter
             Layout.preferredWidth: root.barWidth
             Layout.alignment: Qt.AlignHCenter

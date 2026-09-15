@@ -29,50 +29,119 @@ PanelWindow {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        color: cfg?.bgColor ?? "#121217"
+        color: cfg?.bg0 ?? "#f1e5ce"
+
+        // Inner double-line bookbinding / watch rim border
+        Rectangle {
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            anchors.rightMargin: 1
+            width: 1
+            color: cfg?.gold ?? "#b5893f"
+            opacity: 0.45
+        }
+        Rectangle {
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            width: 1
+            color: cfg?.bg2 ?? "#d5c4a1"
+            opacity: 0.8
+        }
+
+        // Top Vignette
+        Rectangle {
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 70
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "#284c2d26" }
+                GradientStop { position: 1.0; color: "transparent" }
+            }
+        }
+
+        // Bottom Vignette
+        Rectangle {
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 70
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "transparent" }
+                GradientStop { position: 1.0; color: "#284c2d26" }
+            }
+        }
+
+        // Top Victorian Pediment
+        Text {
+            anchors.top: parent.top
+	    anchors.topMargin: 2
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "7"
+            font.family: cfg?.fontVictorian ?? "Victorian Free Ornaments"
+            font.pixelSize: 15
+            color: cfg?.gold ?? "#b5893f"
+            opacity: 0.75
+            z: 2
+        }
+
+        // Bottom Victorian Tailpiece
+        Text {
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 2
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "A"
+            font.family: cfg?.fontVictorian ?? "Victorian Free Ornaments"
+            font.pixelSize: 13
+            color: cfg?.gold ?? "#b5893f"
+            opacity: 0.75
+            z: 2
+        }
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.topMargin: 8
-            anchors.bottomMargin: 8
+            anchors.topMargin: 20
+            anchors.bottomMargin: 16
             spacing: 0
 
             PowerButton {
                 id: archLogoContainer
-                accentColor: cfg?.accentColor ?? "#C16FB8"
-                existingColor: cfg?.existingColor ?? "#939399"
+                accentColor: cfg?.red ?? "#7a362d"
+                existingColor: cfg?.gold ?? "#b5893f"
                 powerPopup: powerPopup
             }
 
             Separator {
-                sepColor: cfg?.sepColor ?? "#2F2F38"
-                sepLightColor: cfg?.sepLightColor ?? "#505050"
+                sepColor: cfg?.sepColor ?? "#d5c4a1"
+                sepLightColor: cfg?.sepLightColor ?? "#f1e5ce"
                 barWidth: cfg?.barWidth ?? 46
             }
 
             WorkspacePanel {
                 id: workspacePanel
-                accentColor: cfg?.accentColor ?? "#C16FB8"
-                inactiveColor: cfg?.inactiveColor ?? "#5e5e65"
-                existingColor: cfg?.existingColor ?? "#939399"
-                textColor: cfg?.textColor ?? "#A3A0AF"
-                sepColor: cfg?.sepColor ?? "#2F2F38"
-                sepLightColor: cfg?.sepLightColor ?? "#505050"
+                accentColor: cfg?.accentColor ?? "#b5893f"
+                inactiveColor: cfg?.inactiveColor ?? "#d5c4a1"
+                existingColor: cfg?.existingColor ?? "#7a362d"
+                textColor: cfg?.textColor ?? "#3a2a20"
+                sepColor: cfg?.sepColor ?? "#d5c4a1"
+                sepLightColor: cfg?.sepLightColor ?? "#f1e5ce"
                 barWidth: cfg?.barWidth ?? 46
 		winMenu: winMenu
             }
 
             Separator {
-                sepColor: cfg?.sepColor ?? "#2F2F38"
-                sepLightColor: cfg?.sepLightColor ?? "#505050"
+                sepColor: cfg?.sepColor ?? "#d5c4a1"
+                sepLightColor: cfg?.sepLightColor ?? "#f1e5ce"
                 barWidth: cfg?.barWidth ?? 46
             }
 
             NetworkWidget {
                 id: netWidgetContainer
-                accentColor: cfg?.accentColor ?? "#C16FB8"
-                inactiveColor: cfg?.inactiveColor ?? "#5e5e65"
-                textColor: cfg?.textColor ?? "#A3A0AF"
+                accentColor: cfg?.accentColor ?? "#b5893f"
+                inactiveColor: cfg?.inactiveColor ?? "#d5c4a1"
+                textColor: cfg?.textColor ?? "#3a2a20"
                 barWidth: cfg?.barWidth ?? 46
                 netIcon: sysData?.netIcon ?? "󰤭"
                 isConnected: sysData?.isConnected ?? false
@@ -87,48 +156,49 @@ PanelWindow {
             }
 
             Separator {
-                sepColor: cfg?.sepColor ?? "#2F2F38"
-                sepLightColor: cfg?.sepLightColor ?? "#505050"
+                sepColor: cfg?.sepColor ?? "#d5c4a1"
+                sepLightColor: cfg?.sepLightColor ?? "#f1e5ce"
                 barWidth: cfg?.barWidth ?? 46
             }
 
             VolumeWidget {
                 id: volumeWidgetContainer
-                accentColor: cfg?.accentColor ?? "#C16FB8"
-                inactiveColor: cfg?.inactiveColor ?? "#5e5e65"
-                textColor: cfg?.textColor ?? "#A3A0AF"
+                accentColor: cfg?.accentColor ?? "#b5893f"
+                inactiveColor: cfg?.inactiveColor ?? "#d5c4a1"
+                textColor: cfg?.textColor ?? "#3a2a20"
                 barWidth: cfg?.barWidth ?? 46
                 mixerPopup: mixerPopup
             }
 
             Separator {
-                sepColor: cfg?.sepColor ?? "#2F2F38"
-                sepLightColor: cfg?.sepLightColor ?? "#505050"
+                sepColor: cfg?.sepColor ?? "#d5c4a1"
+                sepLightColor: cfg?.sepLightColor ?? "#f1e5ce"
                 barWidth: cfg?.barWidth ?? 46
             }
 
             BatteryWidget {
                 id: batteryWidgetContainer
-                accentColor: cfg?.accentColor ?? "#C16FB8"
-                inactiveColor: cfg?.inactiveColor ?? "#5e5e65"
-                textColor: cfg?.textColor ?? "#A3A0AF"
+                accentColor: cfg?.accentColor ?? "#b5893f"
+                inactiveColor: cfg?.inactiveColor ?? "#d5c4a1"
+                textColor: cfg?.textColor ?? "#3a2a20"
                 batteryPercent: sysData?.batteryPercent ?? 0
                 batteryStatus: sysData?.batteryStatus ?? "Unknown"
                 batteryPopup: batteryPopup
             }
 
             Separator {
-                sepColor: cfg?.sepColor ?? "#2F2F38"
-                sepLightColor: cfg?.sepLightColor ?? "#505050"
+                sepColor: cfg?.sepColor ?? "#d5c4a1"
+                sepLightColor: cfg?.sepLightColor ?? "#f1e5ce"
                 barWidth: cfg?.barWidth ?? 46
             }
 
             UpdatesWidget {
                 id: updatesWidgetContainer
-                accentColor: cfg?.accentColor ?? "#C16FB8"
-                inactiveColor: cfg?.inactiveColor ?? "#5e5e65"
-                existingColor: cfg?.existingColor ?? "#939399"
-                textColor: cfg?.textColor ?? "#A3A0AF"
+                accentColor: cfg?.accentColor ?? "#b5893f"
+                hoverColor: cfg?.red ?? "#7a362d"
+                inactiveColor: cfg?.inactiveColor ?? "#d5c4a1"
+                existingColor: cfg?.existingColor ?? "#7a362d"
+                textColor: cfg?.textColor ?? "#3a2a20"
                 barWidth: cfg?.barWidth ?? 46
                 updatesCount: sysData?.pacmanUpdatesCount ?? 0
                 isChecking: sysData?.isCheckingUpdates ?? false
@@ -136,25 +206,29 @@ PanelWindow {
             }
 
             Separator {
-                sepColor: cfg?.sepColor ?? "#2F2F38"
-                sepLightColor: cfg?.sepLightColor ?? "#505050"
+                sepColor: cfg?.sepColor ?? "#d5c4a1"
+                sepLightColor: cfg?.sepLightColor ?? "#f1e5ce"
                 barWidth: cfg?.barWidth ?? 46
             }
 
             TrayWidget {
                 id: trayLayout
+                badgeColor: cfg?.fg ?? "#3a2a20"
+                badgeHoverColor: cfg?.red ?? "#7a362d"
+                borderColor: cfg?.gold ?? "#b5893f"
+                borderHoverColor: cfg?.goldBright ?? "#d5a86d"
             }
 
             Separator {
-                sepColor: cfg?.sepColor ?? "#2F2F38"
-                sepLightColor: cfg?.sepLightColor ?? "#505050"
+                sepColor: cfg?.sepColor ?? "#d5c4a1"
+                sepLightColor: cfg?.sepLightColor ?? "#f1e5ce"
                 barWidth: cfg?.barWidth ?? 46
                 visible: trayLayout.visible
             }
 
             LayoutWidget {
                 id: layoutWidget
-                textColor: cfg?.textColor ?? "#A3A0AF"
+                textColor: cfg?.textColor ?? "#3a2a20"
                 barWidth: cfg?.barWidth ?? 46
 
                 Component.onCompleted: {
@@ -164,14 +238,15 @@ PanelWindow {
             }
 
             Separator {
-                sepColor: cfg?.sepColor ?? "#2F2F38"
-                sepLightColor: cfg?.sepLightColor ?? "#505050"
+                sepColor: cfg?.sepColor ?? "#d5c4a1"
+                sepLightColor: cfg?.sepLightColor ?? "#f1e5ce"
                 barWidth: cfg?.barWidth ?? 46
             }
 
             ClockWidget {
                 id: clockContainer
-                existingColor: cfg?.existingColor ?? "#939399"
+                existingColor: cfg?.textColor ?? "#3a2a20"
+                accentColor: cfg?.gold ?? "#b5893f"
                 barWidth: cfg?.barWidth ?? 46
                 calPopup: calPopup
             }
@@ -187,7 +262,7 @@ PanelWindow {
 
         gradient: Gradient {
             orientation: Gradient.Horizontal
-            GradientStop { position: 0.0; color: "#A6000000" }
+            GradientStop { position: 0.0; color: "#353a2a20" }
             GradientStop { position: 1.0; color: "transparent" }
         }
     }
