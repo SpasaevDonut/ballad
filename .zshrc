@@ -23,7 +23,7 @@ bindkey '^[[1;5D' backward-word                   # Ctrl + Left
 bindkey '^[[H'    beginning-of-line                # Home
 bindkey '^[[F'    end-of-line                      # End
 
-PROMPT='%F{183}%n%f@%F{white}%m%f:%F{blue}%~%f %# '
+PROMPT='%F{183}%n%f@%F{240}%m%f:%F{blue}%~%f %# '
 export PATH="$HOME/.dev/flutter_sdk/flutter/bin:$PATH"
 
 alias startniri="dbus-run-session niri --session"
