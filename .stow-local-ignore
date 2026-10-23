@@ -1,0 +1,6 @@
+# Ignore git and backup directories in dotfiles
+\.git
+.*_bk.*
+.*\.bak
+.*\.tmp
+.*\.swp
