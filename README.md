@@ -1,4 +1,4 @@
-# 📜 Ballad of Twilight Blossoms
+# Ballad of Twilight Blossoms
 
 > An elegant Victorian-Celtic rice with **Niri** as window manager and shell powered by **Quickshell**, inspired by antique manuscripts, pocket watch engraving, and some omarchy gothic rice.
 
@@ -6,7 +6,7 @@ Aesthetic inspired by *s.a.t.8 (Ballad of Twilight Blossoms)* by *nin (lion)*: w
 
 ---
 
-## 🎨 Color Palette
+## Color Palette
 
 | Token | Hex | Role in Interface |
 | :--- | :--- | :--- |
@@ -22,7 +22,7 @@ Aesthetic inspired by *s.a.t.8 (Ballad of Twilight Blossoms)* by *nin (lion)*: w
 
 ---
 
-## 🛠 Software
+## Software
 
 | Software | Piece | What it is |
 | :--- | :--- | :--- |
@@ -41,7 +41,7 @@ Aesthetic inspired by *s.a.t.8 (Ballad of Twilight Blossoms)* by *nin (lion)*: w
 
 ---
 
-## ⚙️ Dotfile Specifics & Widget Mechanics
+## Dotfile Specifics & Widget Mechanics
 
 ### 1. Quickshell Architecture & Wayland Layer Shell
 The user interface is built on **Quickshell** (Qt 6 / QML) and structured across two independent Wayland Layer Shell planes:
@@ -88,7 +88,7 @@ Calendar, Wi-Fi, Audio Mixer, Power, and Pacman update popups share a unified ca
 
 ---
 
-## ✒️ Required Fonts
+## Required Fonts
 Ensure the following fonts are installed for correct rendering of typography, glyphs, and ornamental vignettes:
 1. **[Cinzel](https://fonts.google.com/specimen/Cinzel)** — Headers, labels, status text, and popup action buttons.
 2. **[Cinzel Decorative](https://fonts.google.com/specimen/Cinzel+Decorative)** — Roman numeral glyphs on the pocket watch workspace dial.
@@ -98,7 +98,7 @@ Ensure the following fonts are installed for correct rendering of typography, gl
 6. **Bodoni Ornaments ITC** — Ornamental bracket dividers (`\u00B8`), fleur-de-lis (`t`), and editorial flourishes.
 7. **Victorian Free Ornaments** — Arched pediment (`7`), tail vignette (`A`), corner filigree (`z`), and power button rosettes (`)`, `*`).
 ---
-## 🚀 Installation & Management with GNU Stow
+## Installation & Management with GNU Stow
 Deploy configuration files to `$HOME` using `stow`:
 ```bash
 cd ~/.dotfiles
