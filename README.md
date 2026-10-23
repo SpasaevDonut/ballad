@@ -5,6 +5,13 @@
 Aesthetic inspired by *s.a.t.8 (Ballad of Twilight Blossoms)* by *nin (lion)*: warm parchment paper, deep walnut umber ink, antique brass, sunset gold, and rich velvet wine.
 
 ---
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/154666db-6209-45c9-9eae-a1432caed8e8" />
+<img width="365" height="318" alt="image" src="https://github.com/user-attachments/assets/d8ff0bd9-d097-4b47-8ef2-b66150261d2e" />
+<img width="356" height="329" alt="image" src="https://github.com/user-attachments/assets/463a8b6a-d76f-4647-9429-c09904079562" />
+<img width="380" height="451" alt="image" src="https://github.com/user-attachments/assets/dd3e392f-eb69-4ba6-a26b-de2006d42163" />
+<img width="380" height="451" alt="image" src="https://github.com/user-attachments/assets/005c905b-b738-4f85-ab75-1dc00da16f76" />
+
+---
 
 ## Color Palette
 
