@@ -1,6 +1,6 @@
 # 📜 Ballad of Twilight Blossoms
 
-> An elegant Victorian-Celtic desktop environment for **Niri** powered by **Quickshell**, inspired by antique manuscripts, pocket watch engraving, and illuminated books.
+> An elegant Victorian-Celtic rice with **Niri** as window manager and shell powered by **Quickshell**, inspired by antique manuscripts, pocket watch engraving, and some omarchy gothic rice.
 
 Aesthetic inspired by *s.a.t.8 (Ballad of Twilight Blossoms)* by *nin (lion)*: warm parchment paper, deep walnut umber ink, antique brass, sunset gold, and rich velvet wine.
 
@@ -22,24 +22,21 @@ Aesthetic inspired by *s.a.t.8 (Ballad of Twilight Blossoms)* by *nin (lion)*: w
 
 ---
 
-## 🛠 Software Stack
+## 🛠 Software
 
-| Category | Component | Description / Role |
+| Software | Piece | What it is |
 | :--- | :--- | :--- |
-| **Window Manager** | `niri` | Scrollable tiling Wayland compositor |
+| **Window Manager** | `niri` | Wayland compositor |
 | **Status Bar & UI** | `quickshell` | Status bar, popups, and desktop telemetry widgets (Qt6 / QML) |
-| **Application Launcher** | `rofi` (`rofi-wayland`) | Minimalist app launcher themed with parchment & wine |
-| **Terminal Emulator** | `foot` | High-performance Wayland terminal with native Sixel support |
-| **Shell** | `zsh` | Interactive shell with `zsh-autosuggestions` |
-| **System Fetch** | `fastfetch` | Fast CLI fetch banner with transparent Sixel sprite |
-| **Wallpaper** | `swaybg` | Background image daemon (`wallpup_populated.jpg`) |
+| **Application Launcher** | `rofi` (`rofi-wayland`) | App launcher |
+| **Terminal Emulator** | `foot` | Wayland terminal |
+| **System Fetch** | `fastfetch` | Fastfetch |
+| **Wallpaper** | `swaybg` | Wallpaper daemon |
 | **Audio Server** | `pipewire` + `wireplumber` | Audio engine managed via `wpctl` |
-| **Network Backend** | `NetworkManager` (`nmcli`) | Wi-Fi scanning and connection manager |
-| **File Manager** | `pcmanfm` | Lightweight graphical file manager |
-| **Clipboard** | `wl-clipboard` + `cliphist` | Wayland clipboard history management |
-| **Clipboard Daemon** | `wl-clip-persist` | Preserves clipboard content after application exits |
-| **GTK Theming** | `adw-gtk3` + `gtk.css` | Cohesive theme for GTK 3 and GTK 4 applications |
-| **Qt Theming** | `qt6ct` | Styling and palette configuration for Qt6 apps |
+| **Network Backend** | `NetworkManager` (`nmcli`) | Wi-Fi manager |
+| **File Manager** | `pcmanfm` | file manager |
+| **GTK Theming** | `adw-gtk3` + `gtk.css` | Theme for GTK 3 and GTK 4 applications |
+| **Qt Theming** | `qt6ct` | Styling and palette config for Qt6 apps |
 | **Dotfiles Manager** | `GNU Stow` | Symlink farm manager for dotfiles deployment |
 
 ---
@@ -92,9 +89,7 @@ Calendar, Wi-Fi, Audio Mixer, Power, and Pacman update popups share a unified ca
 ---
 
 ## ✒️ Required Fonts
-
 Ensure the following fonts are installed for correct rendering of typography, glyphs, and ornamental vignettes:
-
 1. **[Cinzel](https://fonts.google.com/specimen/Cinzel)** — Headers, labels, status text, and popup action buttons.
 2. **[Cinzel Decorative](https://fonts.google.com/specimen/Cinzel+Decorative)** — Roman numeral glyphs on the pocket watch workspace dial.
 3. **[EB Garamond](https://fonts.google.com/specimen/EB+Garamond)** — Primary text, calendar numerals, telemetry values, package lists (complete Cyrillic support).
@@ -102,16 +97,11 @@ Ensure the following fonts are installed for correct rendering of typography, gl
 5. **[JetBrainsMono Nerd Font](https://www.nerdfonts.com/)** — Terminal font and Nerd Font system icons.
 6. **Bodoni Ornaments ITC** — Ornamental bracket dividers (`\u00B8`), fleur-de-lis (`t`), and editorial flourishes.
 7. **Victorian Free Ornaments** — Arched pediment (`7`), tail vignette (`A`), corner filigree (`z`), and power button rosettes (`)`, `*`).
-
 ---
-
 ## 🚀 Installation & Management with GNU Stow
-
 Deploy configuration files to `$HOME` using `stow`:
-
 ```bash
 cd ~/.dotfiles
 stow .
 ```
-
 *The `.stow-local-ignore` file automatically prevents linking of git metadata, backups, and documentation into `$HOME`.*
