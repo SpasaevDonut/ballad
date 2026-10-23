@@ -33,9 +33,7 @@ configuration {
 
 window {
     background-color: @bg;
-    border:           2px;
-    border-color:     @gold;   /* золотая рамка вокруг окна */
-    border-radius:    4px;
+    border:           0px;
     padding:          5px;
 }
 
@@ -89,7 +87,6 @@ listview {
 element {
     padding:          3px 6px;
     spacing:          6px;
-    border-radius:    2px;
 }
 
 /* обычные элементы */
