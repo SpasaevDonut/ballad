@@ -16,27 +16,31 @@ configuration {
 }
 
 * {
-    bg:           #121217; 
-    bg-popup:     #202029; 
-    fg:           #A3A0AF; 
-    accent:       #C16FB8; 
-    inactive:     #5e5e65; 
-    sep:          #2F2F38; /* темная часть сепаратора */
-    sep-light:    #505050; /* светлая часть сепаратора (добавили) */
+    /* Victorian-Celtic Parchment & Velvet Palette */
+    bg:           #f1e5ce; /* светлый теплый пергамент */
+    bg-popup:     #e8d2b4; /* плотный пергамент */
+    fg:           #3a2a20; /* темная ореховая умбра */
+    accent:       #7a362d; /* глубокий винный бархат для выделения */
+    gold:         #b5893f; /* состаренное золото / латунь для рамки */
+    gold-bright:  #d5a86d; /* закатное яркое золото */
+    inactive:     #a29081; /* блеклый античный сепия (подсказки) */
+    sep:          #d5c4a1; /* пергаментный кант */
+    sep-light:    #b5893f; /* золотой акцентный кант */
     
     background-color: transparent;
     text-color:       @fg;
 }
 
 window {
-    background-color: @bg; /* используем цвет попапа для окна */
-    border:           0px;
-    border-color:     @accent;   /* красная рамка вокруг окна */
+    background-color: @bg;
+    border:           2px;
+    border-color:     @gold;   /* золотая рамка вокруг окна */
+    border-radius:    4px;
     padding:          5px;
 }
 
 mainbox {
-    spacing:          0px; /* <--- убираем разрыв между полем ввода и списком */
+    spacing:          0px; /* убираем разрыв между полем ввода и списком */
     background-color: transparent;
 }
 
@@ -45,7 +49,7 @@ inputbar {
     spacing:      0px;
     text-color:   @accent;
     
-    /* темная тень снизу (2px) */
+    /* кант снизу */
     border:       0px 0px 2px 0px; 
     border-color: @sep;
     
@@ -57,22 +61,35 @@ prompt {
     text-color: @accent;
 }
 
+textbox-prompt-colon {
+    expand:     false;
+    str:        ":";
+    margin:     0px 4px 0px 0px;
+    text-color: @gold;
+}
+
 entry {
-    text-color: @fg;
+    text-color:        @fg;
+    placeholder-color: @inactive;
 }
 
 listview {
     background-color: @bg;       
     
-    /* светлый блик сверху (1px) */
-    border:           1px solid 0px 0px; 
+    /* золотой акцентный кант сверху (1px) */
+    border:           1px 0px 0px 0px; 
     border-color:     @sep-light;             
     
     spacing:          2px;
     scrollbar:        false;
-    padding: 5 2 2 2px; 
-    /* убедимся, что между блоками нет пустых отступов, чтобы линии "склеились" */
+    padding:          5px 2px 2px 2px; 
     margin:           0px; 
+}
+
+element {
+    padding:          3px 6px;
+    spacing:          6px;
+    border-radius:    2px;
 }
 
 /* обычные элементы */
@@ -81,18 +98,46 @@ element normal.normal, element alternate.normal {
     text-color:       @fg;
 }
 
-/* элементы при наведении/выделении (чтобы не было дефолтных цветов) */
-element selected.normal {
-    background-color: @accent;   /* красный фон при выделении */
-    text-color:       #ffffff;   /* белый текст для контраста */
+/* элементы при наведении/выделении */
+element selected.normal, element selected.active {
+    background-color: @accent;   /* винный бархат при выделении */
+    text-color:       #f1e5ce;   /* пергаментный текст для высокого контраста */
 }
 
-element selected.active {
+element normal.active, element alternate.active {
+    background-color: @bg;
+    text-color:       @gold;
+}
+
+element normal.urgent, element alternate.urgent {
+    background-color: @bg;
+    text-color:       @accent;
+}
+
+element selected.urgent {
     background-color: @accent;
+    text-color:       #f1e5ce;
+}
+
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
+
+element-icon {
+    background-color: inherit;
+    text-color:       inherit;
+    size:             22px;
+    vertical-align:   0.5;
 }
 
 message {
     padding:      1px;
     border-color: @inactive;
     border:       2px dash 0px 0px;
+}
+
+textbox {
+    text-color:   @fg;
 }
