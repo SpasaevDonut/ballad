@@ -104,6 +104,11 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 animations {
 }
 
+// Make the backdrop light.
+overview {
+    backdrop-color "#e8d2b4"
+}
+
 window-rule {
     match app-id="imv"
     open-floating true
