@@ -3,7 +3,7 @@
   "logo": {
     "type": "sixel",
     "source": "~/.config/fastfetch/sat8drag.png",
-    "width": 31,
+    "width": 40,
     "padding": {
         "top": 0,          // Top padding
         "left": 0,         // Left padding

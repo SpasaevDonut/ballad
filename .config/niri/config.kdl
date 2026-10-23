@@ -1,23 +1,12 @@
-// This config is in the KDL format: https://kdl.dev
-// "/-" comments out the following node.
-// Check the wiki for a full description of the configuration:
-// https://yalter.github.io/niri/Configuration:-Introduction
-
-// Input device configuration.
-// Find the full list of options on the wiki:
-// https://yalter.github.io/niri/Configuration:-Input
 prefer-no-csd
 
 //gtk theme
 spawn-at-startup "wl-clip-persist" "--clipboard" "regular"
 spawn-at-startup "sh" "-c" "wl-paste --type text --watch cliphist store"
 spawn-at-startup "sh" "-c" "wl-paste --type image --watch cliphist store"
-//spawn-sh-at-startup "swaybg -i ~/Pictures/ots_12.jpg -m fill"
-
 spawn-at-startup "pipewire"
 spawn-sh-at-startup "sleep 0.5 && wireplumber"
 spawn-sh-at-startup "sleep 0.5 && pipewire-pulse"
-
 //wallpapaer
 spawn-sh-at-startup "swaybg -i ~/.config/wallpup_populated.jpg -m fill"
 spawn-at-startup "quickshell"
@@ -55,7 +44,6 @@ output "eDP-1" {
     position x=0 y=0
 }
 
-
 layout {
     gaps 4
     center-focused-column "never"
@@ -89,22 +77,8 @@ layout {
         offset x=0 y=5
         color "#0007"
     }
-    struts {
-        // left 64
-        // right 64
-        // top 64
-        // bottom 64
-    }
 }
 
-hotkey-overlay {}
-
-screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
-
-animations {
-}
-
-// Make the backdrop light.
 overview {
     backdrop-color "#e8d2b4"
 }
@@ -127,31 +101,8 @@ window-rule {
 }
 
 window-rule {
-    match title="Call of Duty"
-    
-    open-on-workspace "game"
-    open-maximized true
-    
-}
-
-
-
-//window-rule {
-   // match title="Call of Duty" // или "Black Ops II"
-    
-    // НАСТОЯЩИЕ параметры Niri для захвата мыши и клавиатуры
-   // match-keyboard-grab true
- //   match-pointer-constraints true
-//}
-
-window-rule {
 	match title="Helium"
 	open-maximized true
-}
-
-window-rule {
-    match app-id=r#"hl2\.exe"#
-    open-fullscreen true
 }
 
 window-rule {
@@ -166,16 +117,17 @@ window-rule {
     clip-to-geometry true
 }
 
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     Mod+Q hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
     Mod+P hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun"; }
     Mod+E hotkey-overlay-title="Open a pcmanfm instance: pcmanfm" { spawn "pcmanfm"; }
-    
+   
+    //an emergency fastfetch button
     Super+Shift+F23 { spawn "foot" "sh" "-c" "fastfetch --raw ~/.config/fastfetch/logo.sixel --logo-width 31 --logo-height 19 --logo-padding-top 2; exec zsh"; }
-
-    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
@@ -196,14 +148,8 @@ binds {
     
     Mod+A {focus-column-left; }
     Mod+D {focus-column-right; }
-    Mod+Left  { focus-column-left; }
-    Mod+Down  { focus-window-down; }
-    Mod+Up    { focus-window-up; }
-    Mod+Right { focus-column-right; }
-    Mod+H     { focus-column-left; }
-    Mod+J     { focus-window-down; }
-    Mod+K     { focus-window-up; }
-    Mod+L     { focus-column-right; }
+    Mod+W {focus-workspace-up; }
+    Mod+S {focus-workspace-down; }
 
     Mod+Ctrl+Left  { move-column-left; }
     Mod+Ctrl+Down  { move-window-down; }
@@ -300,7 +246,6 @@ binds {
     Mod+V       { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
 
-    Mod+W { toggle-column-tabbed-display; }
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
