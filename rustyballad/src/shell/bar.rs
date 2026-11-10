@@ -552,7 +552,17 @@ pub fn draw(
     // Keyboard layout badge.
     y += 3.0;
     let badge = niri::layout_badge(&niri_state.layouts);
-    text.draw(pm, &badge, &Style::new(theme.font_title, 11.0).bold(), 0.0, y, bw, HAlign::Center, theme.gold);
+    // QML LayoutWidget: bold Cinzel in textColor (fg), not gold.
+    text.draw(
+        pm,
+        &badge,
+        &Style::new(theme.font_title, 11.0).black(),
+        0.0,
+        y,
+        bw,
+        HAlign::Center,
+        theme.fg,
+    );
     y += 18.0 + 3.0;
 
     y += separator(pm, theme, text, y, bw);

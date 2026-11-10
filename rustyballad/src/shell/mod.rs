@@ -1144,7 +1144,6 @@ impl PointerHandler for Shell {
                         _ => {}
                     }
                 }
-                _ => {}
             }
         }
     }

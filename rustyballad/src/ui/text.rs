@@ -15,7 +15,7 @@ pub struct Style<'a> {
     pub size: f32,
     /// Absolute line height in px (QML `lineHeight` multiplies font size).
     pub line_height: f32,
-    pub bold: bool,
+    pub weight: Weight,
     pub italic: bool,
 }
 
@@ -25,13 +25,18 @@ impl<'a> Style<'a> {
             family,
             size,
             line_height: size * 1.2,
-            bold: false,
+            weight: Weight::NORMAL,
             italic: false,
         }
     }
 
     pub const fn bold(mut self) -> Self {
-        self.bold = true;
+        self.weight = Weight::BOLD;
+        self
+    }
+
+    pub const fn black(mut self) -> Self {
+        self.weight = Weight::BLACK;
         self
     }
 
@@ -69,9 +74,7 @@ impl Text {
 
     fn layout(&mut self, line: &str, style: &Style) -> Buffer {
         let mut attrs = Attrs::new().family(Family::Name(style.family));
-        if style.bold {
-            attrs = attrs.weight(Weight::BOLD);
-        }
+        attrs = attrs.weight(style.weight);
         if style.italic {
             attrs = attrs.style(CosmicStyle::Italic);
         }
@@ -126,14 +129,7 @@ impl Text {
         text.split('\n').count() as f32 * style.line_height
     }
 
-    fn draw_buffer(
-        &mut self,
-        pm: &mut PixmapMut,
-        buf: &mut Buffer,
-        dx: f32,
-        dy: f32,
-        color: Color,
-    ) {
+    fn draw_buffer(&mut self, pm: &mut PixmapMut, buf: &mut Buffer, dx: f32, dy: f32, color: Color) {
         let cosmic_color = CosmicColor::rgba(
             (color.red() * 255.0).round() as u8,
             (color.green() * 255.0).round() as u8,
@@ -177,4 +173,5 @@ impl Text {
         );
     }
 }
+
 
